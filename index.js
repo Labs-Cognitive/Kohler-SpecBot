@@ -33,8 +33,8 @@ server.listen(3000, '127.0.0.1', function() {
 });
 
 var connector = new builder.ChatConnector({
-    appId: 'f136fda9-d324-4ef4-8d5a-29603381268b', //"802adbfd-cc68-4101-9807-1aed88efba9c", 
-    appPassword: 'pyopHCHE315^mdrGVX43#+$' //"uqZLQ0712-eedfgJOLW9-^(" 
+    appId:'f136fda9-d324-4ef4-8d5a-29603381268b', //"802adbfd-cc68-4101-9807-1aed88efba9c", 
+    appPassword:'pyopHCHE315^mdrGVX43#+$' //"uqZLQ0712-eedfgJOLW9-^(" 
 });
 
 function getCardsAttachments1(session) {
