@@ -1,0 +1,30 @@
+{
+  "name": "specdesk",
+  "version": "1.0.0",
+  "description": "A bot for Kohler",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "Bot",
+    "LUIS",
+    "Kohler",
+    "SpecDesk"
+  ],
+  "author": "GeetaKrishna Adhikari",
+  "license": "ISC",
+  "dependencies": {
+    "botbuilder": "^3.14.1",
+    "botbuilder-azure": "^3.1.0",
+    "botbuilder-formflow": "^0.5.0",
+    "cloudant": "^1.10.0-NOTICE",
+    "express": "^4.16.3",
+    "luis-sdk": "^1.0.1",
+    "moment": "^2.22.1",
+    "node-uuid": "^1.4.8",
+    "restify": "^7.1.1",
+    "sprintf": "^0.1.5",
+    "unirest": "^0.5.1"
+  }
+}
