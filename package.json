@@ -9,7 +9,8 @@
     "luis-sdk": "^1.0.1",
     "moment": "^2.22.1",
     "node-uuid": "^1.4.8",
-    "restify": "^7.1.1"
+    "restify": "^7.1.1",
+    "unirest": "^0.5.1"
   },
   "devDependencies": {
     "chalk": "^2.3.0",

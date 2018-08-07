@@ -7,7 +7,7 @@ var restify = require('restify');
 var builder = require('botbuilder');
 var LUIS = require('luis-sdk');
 var moment = require('moment');
-//var unirest = require("unirest");
+var unirest = require("unirest");
 var path = require('path');
 var request = require('request');
 var fs = require('fs');
@@ -84,7 +84,7 @@ var n = 0;
 server.post('/api/messages', connector.listen());
 bot.dialog('/', dialog);
 
-/* bot.on('conversationUpdate', function(message) {
+ bot.on('conversationUpdate', function(message) {
 
     //console.log('in Conversation', message)
 
@@ -105,7 +105,7 @@ bot.dialog('/', dialog);
 
         })
     }
-}) */
+}) 
 
 dialog.matches('greetings', [
     function(session, args) {
