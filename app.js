@@ -28,7 +28,7 @@ var server = restify.createServer({
 
 server.listen(3000, '127.0.0.1', function() {
     //console.log("--------------------------------------------------------");
-    //console.log(moment().format('MMMM Do YYYY, hh:mm:ss a') + " |  Kohler SpecDeckBot is running with the address : " + server.url);
+    console.log(moment().format('MMMM Do YYYY, hh:mm:ss a') + " |  Kohler SpecDeckBot is running with the address : " + server.url);
     //console.log("--------------------------------------------------------");
 });
 
@@ -75,7 +75,8 @@ function getCardsAttachments4Yes_No(session) {
 var bot = new builder.UniversalBot(connector, {
     storage: new builder.MemoryBotStorage()
 });
-var model = 'https://westus.api.cognitive.microsoft.com/luis/v2.0/apps/6afd9dd7-8c31-4669-9445-8c3f93584f9d?subscription-key=ecff556f9562494680f342b14a3c82d6&verbose=true&timezoneOffset=0&q=';
+var model = 'https://westus.api.cognitive.microsoft.com/luis/v2.0/apps/6afd9dd7-8c31-4669-9445-8c3f93584f9d?subscription-key=ecff556f9562494680f342b14a3c82d6&verbose=true&timezoneOffset=0&q=';	
+
 var recognizer = new builder.LuisRecognizer(model);
 var dialog = new builder.IntentDialog({
     recognizers: [recognizer]
@@ -885,7 +886,7 @@ dialog.matches('pptname', [
         session.sendTyping();
         console.log(session);
 		console.log(args);
-		console.log(args.entities[0].entity);
+		//console.log(args.entities[0].entity);
 		pptname = args.entities[0].entity;
         console.log("--------------------------------------------------------");
         console.log(moment().format('MMMM Do YYYY, hh:mm:ss a') + " | pptName Intent Matched");
@@ -1168,6 +1169,8 @@ function processSubmitAction(session, value) {
             break;
         case 'states1':
             session.send("Enter Presentation name");
+			session.endDialog();
+        session.endConversation();
             break;
         default:
             session.send(defaultErrorMessage);
@@ -1199,7 +1202,7 @@ function processSubmitAction(session, value) {
 	
     function(session, args, results) {
         session.sendTyping();
-
+		console.log(session.userData.Customer)
         // a REST API call for Creating Presentation
         if (path.extname(session.message.attachments[0].name) == '.xlsx') {
             unirest.post('http://kohler.azurewebsites.net/api/PresentationSetup')
@@ -1214,7 +1217,7 @@ function processSubmitAction(session, value) {
                     "StateCode": session.userData.Customer.StateCode,
                     "Name": pptname,
                     "ProjectType": session.userData.ProjectType,
-                    "customer": session.userData.Customer,
+                    "customer": session.userData.Customer,//customer_name,
                     "CoverImagePath": null,
                     "ImageDetails": null,
                     "selectedImage": "https://stspecdeckdev.blob.core.windows.net/medialibrary/",
@@ -1243,7 +1246,7 @@ function processSubmitAction(session, value) {
 
                             builder.Prompts.text(session, "Presentation **" + pptname + "** is created.")
                             //API request to create Rooms based on the Attachement obtained above.
-                            console.log('{"RoomName":"NewRoom1","presentationId": "' + response.raw_body.id + '","BrandCatalogsList":"' + JSON.stringify(BrandCatalogList) + '"}');
+                            console.log('{"RoomName":"'+session.userData.RoomName+'","presentationId": "' + response.raw_body.id + '","BrandCatalogsList":"' + JSON.stringify(BrandCatalogList) + '"}');
 
                             request.post({
                                 url: 'http://kohler.azurewebsites.net/api/PresentationSetup/ImportProductsAndGetFailures',
@@ -1256,9 +1259,9 @@ function processSubmitAction(session, value) {
                                     importRoomProductObj: '{"RoomName":"'+session.userData.RoomName+'","presentationId": "' + response.raw_body.id + '","BrandCatalogsList":' + JSON.stringify(BrandCatalogList) + '}',
                                     importProductObj: 'null',
                                     excelFile: {
-                                        value: fs.createReadStream(__dirname + '/SpecDeckMassImportRoomImport.xlsx'),
+                                        value: request(session.message.attachments[0].contentUrl),
                                         options: {
-                                            filename: 'SpecDeckMassImportRoomImport.xlsx',
+                                            filename: 'session.message.attachments[0].name',
                                             contentType: '*/*'
                                         }
                                     }
