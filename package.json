@@ -4,14 +4,12 @@
   "description": "",
   "main": "app.js",
   "dependencies": {
-    "botbuilder": "^3.7.0",
-    "botbuilder-azure": "3.0.2",
-    "fs": "0.0.1-security",
+    "botbuilder": "^3.14.1",
+    "botbuilder-azure": "^3.1.0",
     "luis-sdk": "^1.0.1",
-    "moment": "^2.19.1",
-    "ping": "^0.2.2",
-    "restify": "^6.2.3",
-    "request": "^2.81.0"
+    "moment": "^2.22.1",
+    "node-uuid": "^1.4.8",
+    "restify": "^7.1.1"
   },
   "devDependencies": {
     "chalk": "^2.3.0",
