@@ -19,22 +19,29 @@ var pptname;
 
 /*************  MODULE TWO  ********************/
 
-var server = restify.createServer({
-    name: 'myapp',
-    version: '1.0.0'
-});
+var server = restify.createServer();
 
 /*************  MODULE ONE  ********************/
 
-server.listen(3000, '127.0.0.1', function() {
-    //console.log("--------------------------------------------------------");
-    console.log(moment().format('MMMM Do YYYY, hh:mm:ss a') + " |  Kohler SpecDeckBot is running with the address : " + server.url);
-    //console.log("--------------------------------------------------------");
+server.listen(process.env.port || process.env.PORT || 3000, function () {
+    console.log("--------------------------------------------------------");
+    console.log(moment().format('MMMM Do YYYY, hh:mm:ss a') + " |  KohlerBot is running with the address : " + server.url);
+    console.log("--------------------------------------------------------");
 });
 
 var connector = new builder.ChatConnector({
-    appId:'f136fda9-d324-4ef4-8d5a-29603381268b', //"802adbfd-cc68-4101-9807-1aed88efba9c", 
-    appPassword:'pyopHCHE315^mdrGVX43#+$' //"uqZLQ0712-eedfgJOLW9-^(" 
+    appId:'f136fda9-d324-4ef4-8d5a-29603381268b', 
+    appPassword:'pyopHCHE315^mdrGVX43#+$'
+});
+
+var bot = new builder.UniversalBot(connector, {
+    storage: new builder.MemoryBotStorage()
+});
+var model = 'https://westus.api.cognitive.microsoft.com/luis/v2.0/apps/6afd9dd7-8c31-4669-9445-8c3f93584f9d?subscription-key=ecff556f9562494680f342b14a3c82d6&verbose=true&timezoneOffset=0&q=';	
+
+var recognizer = new builder.LuisRecognizer(model);
+var dialog = new builder.IntentDialog({
+    recognizers: [recognizer]
 });
 
 function getCardsAttachments1(session) {
@@ -72,20 +79,12 @@ function getCardsAttachments4Yes_No(session) {
     ];
 }
 
-var bot = new builder.UniversalBot(connector, {
-    storage: new builder.MemoryBotStorage()
-});
-var model = 'https://westus.api.cognitive.microsoft.com/luis/v2.0/apps/6afd9dd7-8c31-4669-9445-8c3f93584f9d?subscription-key=ecff556f9562494680f342b14a3c82d6&verbose=true&timezoneOffset=0&q=';	
 
-var recognizer = new builder.LuisRecognizer(model);
-var dialog = new builder.IntentDialog({
-    recognizers: [recognizer]
-});
 var n = 0;
 server.post('/api/messages', connector.listen());
 bot.dialog('/', dialog);
 
-bot.on('conversationUpdate', function(message) {
+/* bot.on('conversationUpdate', function(message) {
 
     //console.log('in Conversation', message)
 
@@ -106,7 +105,7 @@ bot.on('conversationUpdate', function(message) {
 
         })
     }
-})
+}) */
 
 dialog.matches('greetings', [
     function(session, args) {
@@ -117,7 +116,7 @@ dialog.matches('greetings', [
         console.log("--------------------------------------------------------");
         //console.log("RequestToken", session.message.user.RequestToken);
         //console.log('access_token', session.message.user.token.access_token);
-        //console.log('access_token', session.message.user.token);
+        console.log('access_token', session.message.user.token);
         session.send("Hi, I am Spec Bot - how can I help you?");
     }
 ]);
