@@ -37,7 +37,7 @@ var connector = new builder.ChatConnector({
 var bot = new builder.UniversalBot(connector, {
     storage: new builder.MemoryBotStorage()
 });
-var model = 'https://westus.api.cognitive.microsoft.com/luis/v2.0/apps/6afd9dd7-8c31-4669-9445-8c3f93584f9d?subscription-key=ecff556f9562494680f342b14a3c82d6&verbose=true&timezoneOffset=0&q=';	
+var model = 'https://eastus.api.cognitive.microsoft.com/luis/v2.0/apps/67a4d004-c4b7-407b-9f29-b868cbfd8089?subscription-key=5558ecec80784f159f3ea033afbe7e31&verbose=true&timezoneOffset=0&q=';	
 
 var recognizer = new builder.LuisRecognizer(model);
 var dialog = new builder.IntentDialog({
@@ -133,22 +133,43 @@ dialog.matches('capabilities', [
     }
 ]);
 
-dialog.matches('question', [
+ dialog.matches('question', [
     function(session, args) {
         session.sendTyping();
         console.log("--------------------------------------------------------");
         console.log(moment().format('MMMM Do YYYY, hh:mm:ss a') + " | Question Intent Matched");
         console.log("--------------------------------------------------------");
         if (args.entities[0].type == "Presentation::create") {
-            //session.send("Yes, I can certainly do that. Please enter presentation name.");
-            session.beginDialog('/waterfall', session);
+            session.send("Yes, I can certainly do that. Please enter presentation name.");
+            //session.beginDialog('/waterfall', session);
         } else if (args.entities[0].type == "Presentation::open") { 
 			//Opening a Presentation
             session.beginDialog('/openppt', session);
         }
     }
-]);
+]); 
 
+dialog.matches('pptname', [
+    function(session, args) {
+        session.sendTyping();
+        console.log(session);
+		console.log(args);
+		//console.log(args.entities[0].entity);
+		pptname = args.entities[0].entity;
+        console.log("--------------------------------------------------------");
+        console.log(moment().format('MMMM Do YYYY, hh:mm:ss a') + " | pptName Intent Matched");
+        console.log("--------------------------------------------------------");
+       
+if(args.entities[0].type=="Entertainment.Title"){
+	   console.log('before roomname waterfall')
+	   session.beginDialog('/waterfall', session);
+		//session.send("Enter")
+}
+else{
+	session.send("Enter correct title");
+}
+    }
+]);
 
 
 //WaterFall2
@@ -303,69 +324,7 @@ bot.dialog('/waterfall1', [
 ])
 
 //For Change in Country and State
-bot.dialog('/waterfall11', [
-    function(session) {
-        console.log('waterfall11 started');
-        session.sendTyping();
-		console.log(session.message.value)
-		console.log(session.message)
-        if (session.message && session.message.value) {
-			console.log('during processSubmitAction');
-            processSubmitAction(session, session.message.value);
-            return;
-        }
 
-        unirest.get('http://kohler.azurewebsites.net/api/Common/GetCountries')
-            .headers({
-                'CSRFToken': session.message.user.RequestToken,
-                'Authorization': 'Bearer ' + session.message.user.token.access_token
-            })
-            .end(function(r) {
-                var countries = [];
-                for (i = 0; i < JSON.parse(r.raw_body).length; i++) {
-                    countries[i] = {
-                        'title': JSON.parse(r.raw_body)[i].CountryName,
-                        'value': JSON.parse(r.raw_body)[i].CountryCode
-                    }
-                }
-
-                var card = {
-                    'contentType': 'application/vnd.microsoft.card.adaptive',
-                    'content': {
-                        "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
-                        "type": "AdaptiveCard",
-                        "version": "1.0",
-                        "body": [{
-                                "type": "TextBlock",
-                                "text": "Select a Country",
-                                "size": "large",
-                                "weight": "bolder"
-                            },
-
-                            {
-                                "type": "Input.ChoiceSet",
-                                "id": "name",
-                                "style": "compact",
-								"value": session.message.user.token.groupid,
-                                "choices": countries
-                            }
-
-                        ],
-                        "actions": [{
-                            "type": "Action.Submit",
-                            "title": "Okay",
-                            'data': {
-                                'type': 'countries'
-                            }
-                        }]
-                    }
-                };
-                //console.log('during attachment');
-                var msg = new builder.Message(session).addAttachment(card);
-                session.send(msg);
-            })
-    }
-])
 
 //Opening a Presentation
 bot.dialog('/openppt', [
@@ -398,15 +357,11 @@ bot.dialog('/openppt', [
 
 bot.dialog('/waterfall', [
 
-    function(session, args) {
-        session.sendTyping();
-        builder.Prompts.text(session, 'Yes, I can certainly do that. Please enter presentation name.')
-    },
 
     function(session, args) {
         session.sendTyping();
         //console.log("-------------------------------------")
-        session.userData.Name = args.response;
+        //session.userData.Name = args.response;
         builder.Prompts.text(session, "Thank You. Select a Project Type from below.");
 
         var cards = getCardsAttachments1();
@@ -614,19 +569,9 @@ bot.dialog('/custname', [
         }
     },
     function(session, args, results) {
-        //console.log(session.userData, 'Counter5 session')
         session.sendTyping();
-		
-		console.log(session.message.attachments[0]);
-		console.log(session.message.user.token)
-		console.log(session.message.user.token.groupid)
-        if(session.userData.groupid){
-			var grouupid = session.userData.groupid;
-		}
-		else{
-			var grouupid = session.message.user.token.groupid;
-		}
-		// a REST API call for Creating Presentation
+		console.log(session.userData.Customer)
+        // a REST API call for Creating Presentation
         if (path.extname(session.message.attachments[0].name) == '.xlsx') {
             unirest.post('http://kohler.azurewebsites.net/api/PresentationSetup')
                 .headers({
@@ -635,16 +580,17 @@ bot.dialog('/custname', [
                     'Authorization': 'Bearer ' + session.message.user.token.access_token
                 })
                 .send({
-                    "GroupId": grouupid,
+                    "GroupId": session.message.user.token.groupid,
                     "CountryCode": session.userData.Customer.CountryCode,
                     "StateCode": session.userData.Customer.StateCode,
-                    "Name": session.userData.Name,
+                    "Name": pptname,
                     "ProjectType": session.userData.ProjectType,
-                    "customer": session.userData.Customer,
+                    "customer": session.userData.Customer,//customer_name,
                     "CoverImagePath": null,
                     "ImageDetails": null,
                     "selectedImage": "https://stspecdeckdev.blob.core.windows.net/medialibrary/",
-                    "BrandLogoPaths": null
+                    "BrandLogoPaths": null,
+					"validForm":true
                 })
                 .end(function(response) {
                     console.log(response.raw_body);
@@ -662,7 +608,7 @@ bot.dialog('/custname', [
                             t.raw_body.forEach(function(k) {
                                 BrandCatalogList.push(k.BrandCode)
                             })
-                            builder.Prompts.text(session, "Presentation **" + session.userData.Name + "** is created.")
+                            builder.Prompts.text(session, "Presentation **" + pptname + "** is created.")
 
                             //API request to create Rooms based on the Attachement obtained above.
 							request.post({
@@ -880,7 +826,7 @@ bot.dialog('/IncidentDesc', [
 
 /*************  MODULE TWO  ********************/
 
-dialog.matches('pptname', [
+/* dialog.matches('pptname', [
     function(session, args) {
         session.sendTyping();
         console.log(session);
@@ -891,16 +837,18 @@ dialog.matches('pptname', [
         console.log(moment().format('MMMM Do YYYY, hh:mm:ss a') + " | pptName Intent Matched");
         console.log("--------------------------------------------------------");
        
-if(args.entities[0].type=="Entertainment.Title"){
-	   console.log('before roomname waterfall')
-	   session.beginDialog('/roomname', session);
-		//session.send("Enter")
-}
-else{
+	if((args.entities[0].type=="Entertainment.Title") && (args.entities[1].type="Presentation:create"))
+	{
+	session.send("Only title");
+	}
+	   else
+	{
 	session.send("Enter correct title");
-}
-    }
-]);
+	}
+	
+	}
+]); */
+
 dialog.matches('projecttype', [
     function(session, args) {
         session.sendTyping();
@@ -1015,9 +963,9 @@ function(session, args, results) {
         console.log("==========================")
         session.sendTyping();
         if (args.response == false) {
-			session.send("Enter Presentation name");
-			session.endDialog();
-        session.endConversation(); 
+			session.beginDialog('/pptname', session)
+			/* session.endDialog();
+        session.endConversation(); */ 
 		}
          else {
 			 console.log('waterfall country assume');
@@ -1034,8 +982,8 @@ bot.dialog('/country', [
 		console.log(session.message.value)
 		console.log(session.message)
         if (session.message && session.message.value) {
-			console.log('during processSubmitAction');
-            processSubmitAction(session, session.message.value);
+			console.log('during processSubmitAction1');
+            processSubmitAction1(session, session.message.value);
             return;
         }
 
@@ -1100,7 +1048,7 @@ bot.dialog('/state', [
             delete session.message.value;
         }
         if (session.message && session.message.value) {
-            processSubmitAction(session, session.message.value);
+            processSubmitAction1(session, session.message.value);
             return;
         }
 
@@ -1156,7 +1104,7 @@ bot.dialog('/state', [
     }
 ]);
 
-function processSubmitAction(session, value) {
+function processSubmitAction1(session, value) {
     console.log(session.userData, 'userData at processSubmitAction', value.type);
     var defaultErrorMessage = 'Please complete all the search parameters';
     switch (value.type) {
@@ -1167,9 +1115,9 @@ function processSubmitAction(session, value) {
             session.beginDialog('/state', session)
             break;
         case 'states1':
-            session.send("Enter Presentation name");
-			session.endDialog();
-        session.endConversation();
+            session.beginDialog('/pptname', session)
+			/* session.endDialog();
+        session.endConversation(); */
             break;
         default:
             session.send(defaultErrorMessage);
@@ -1178,12 +1126,21 @@ function processSubmitAction(session, value) {
 
 
 	
-	bot.dialog('/roomname',[
+	bot.dialog('/pptname',[
 	function(session,args){
+		builder.Prompts.text(session, 'Enter Presentation name');
+		
+		//session.send("Enter Room name");
+		
+	},
+function(session,args){
+	session.userData.Name = args.response;
 		builder.Prompts.text(session, 'Enter room name');
 		
 		//session.send("Enter Room name");
-	},	function(session, args, results){
+		
+	},
+	function(session, args, results){
 		console.log("/////////////////////////////////////////////////////////////////////////////////////////");
 		console.log(args.response, 'at SKUs')
 		session.userData.RoomName = session.message.text;
@@ -1214,7 +1171,7 @@ function processSubmitAction(session, value) {
                     "GroupId": session.message.user.token.groupid,
                     "CountryCode": session.userData.Customer.CountryCode,
                     "StateCode": session.userData.Customer.StateCode,
-                    "Name": pptname,
+                    "Name": session.userData.Name,
                     "ProjectType": session.userData.ProjectType,
                     "customer": session.userData.Customer,//customer_name,
                     "CoverImagePath": null,
@@ -1243,7 +1200,7 @@ function processSubmitAction(session, value) {
                             })
                             console.log(BrandCatalogList)
 
-                            builder.Prompts.text(session, "Presentation **" + pptname + "** is created.")
+                            builder.Prompts.text(session, "Presentation **" + session.userData.Name + "** is created.")
                             //API request to create Rooms based on the Attachement obtained above.
                             console.log('{"RoomName":"'+session.userData.RoomName+'","presentationId": "' + response.raw_body.id + '","BrandCatalogsList":"' + JSON.stringify(BrandCatalogList) + '"}');
 
