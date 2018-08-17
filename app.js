@@ -37,7 +37,7 @@ var connector = new builder.ChatConnector({
 var bot = new builder.UniversalBot(connector, {
     storage: new builder.MemoryBotStorage()
 });
-var model = 'https://eastus.api.cognitive.microsoft.com/luis/v2.0/apps/67a4d004-c4b7-407b-9f29-b868cbfd8089?subscription-key=5558ecec80784f159f3ea033afbe7e31&verbose=true&timezoneOffset=0&q=';	
+var model = 'https://westus.api.cognitive.microsoft.com/luis/v2.0/apps/67a4d004-c4b7-407b-9f29-b868cbfd8089?subscription-key=d325ecdf0a46401c823c283abd4c4b56&verbose=true&timezoneOffset=0&q=';	
 
 var recognizer = new builder.LuisRecognizer(model);
 var dialog = new builder.IntentDialog({
@@ -238,11 +238,14 @@ bot.dialog('/waterfall2', [
     }
 ])
 
+
+
 //Excel Waterfall
 bot.dialog('/excel', [
     function(session) {
+		console.log("Excel Waterfalll")
         session.sendTyping();
-        session.userData.Customer.StateCode = session.message.value.name;
+        //session.userData.Customer.StateCode = session.message.value.name;
 
         builder.Prompts.attachment(session, "Please upload the excel sheet with **SKU**s, **Room** names and more details")
 
@@ -634,12 +637,10 @@ bot.dialog('/custname', [
                                 console.log(response)
                                 console.log(body);
                                 if (body == JSON.stringify("Success")) {
-                                    var cards = getCardsAttachments4Yes_No();
-                                    var reply = new builder.Message(session)
-                                        .attachmentLayout(builder.AttachmentLayout.carousel)
-                                        .attachments(cards);
-                                    session.send('Do you need any other assistance?')
-                                    session.send(reply);
+                                   session.endDialog();
+								   session.endConversation();
+                                    session.beginDialog('/Assistance1',session)
+                         
                                 } else {
                                     session.send('Couldnot create Rooms.')
                                 }
@@ -653,24 +654,206 @@ bot.dialog('/custname', [
 			}) 
 		}
 		else {
-            session.send('Please upload an EXCEL Sheet');
-        }
-		}, 
+            
+		session.beginDialog('/excellsheet', session)
+			//session.send('Please upload an EXCEL Sheet');
+			//session.beginDialog('/IncidentTitle', session);
+			//session.endDialog();
+			//session.endConversation();
+		}
+		}
+]);		
+		bot.dialog('/Assistance1',[
+	
+	function(session,args)
+	{
+		console.log("Inside Assistance")
+		builder.Prompts.text(session, "Do you have any other assistance?")
+		var cards = getCardsAttachments4Yes_No();
+                                    var reply = new builder.Message(session)
+                                        .attachmentLayout(builder.AttachmentLayout.carousel)
+                                        .attachments(cards);
+										session.send(reply);
+		//session.send("Do you have any other assistance?")
+	},
 		function(session, args, results) {
         //console.log("----------------------------------------------------------", args.response)
         session.sendTyping();
         if (args.response == 'Yes') {
             session.send("I can help you create Presentation or Assist with an Incident")
+			session.endDialog();
+        session.endConversation(); 
         } else {
 
             builder.Prompts.text(session, "Thanks. Have a great day");
+			session.endDialog();
+        session.endConversation(); 
+			
         }
+		 
 
-        session.endDialog();
-        session.endConversation();
+        
     }
-
+		
 ]);
+
+//**************************************************************Excel Sheet After wrong upload***************************************
+
+bot.dialog('/excellsheet',[
+function(session, args, results) {
+        //console.log("==========================")
+        //console.log(args.response, 'at SKUs')
+
+        session.sendTyping();
+        
+
+            builder.Prompts.attachment(session, "Problem reading **.xlsx file**! Please upload valid xlsx file")
+
+            var msg = new builder.Message(session)
+                .attachments([{
+                    name: ' You can use this template file ',
+                    contentType: 'application/octet-stream',
+                    contentUrl: 'https://specbot9555.blob.core.windows.net/myfile/SpecDeckRoomsSampleTemplate.xlsx'
+                }]);
+            session.send(msg)
+
+        
+    },
+    function(session, args, results) {
+        session.sendTyping();
+		console.log(session.userData.Customer)
+        // a REST API call for Creating Presentation
+        if (path.extname(session.message.attachments[0].name) == '.xlsx') {
+            unirest.post('http://kohler.azurewebsites.net/api/PresentationSetup')
+                .headers({
+                    'CSRFToken': session.message.user.RequestToken,
+                    'Content-Type': 'application/json',
+                    'Authorization': 'Bearer ' + session.message.user.token.access_token
+                })
+                .send({
+                    "GroupId": session.message.user.token.groupid,
+                    "CountryCode": session.userData.Customer.CountryCode,
+                    "StateCode": session.userData.Customer.StateCode,
+                    "Name": pptname,
+                    "ProjectType": session.userData.ProjectType,
+                    "customer": session.userData.Customer,//customer_name,
+                    "CoverImagePath": null,
+                    "ImageDetails": null,
+                    "selectedImage": "https://stspecdeckdev.blob.core.windows.net/medialibrary/",
+                    "BrandLogoPaths": null,
+					"validForm":true
+                })
+                .end(function(response) {
+                    console.log(response.raw_body);
+                    console.log(response);
+					if(response.ok){
+                    unirest.post('http://kohler.azurewebsites.net/api/GroupManagement/DisplayDefaultBrandCatalog')
+                        .headers({
+                            'CSRFToken': session.message.user.RequestToken,
+                            'Content-Type': 'application/json',
+                            'Authorization': 'Bearer ' + session.message.user.token.access_token
+                        })
+                        .send([session.message.user.token.groupid])
+                        .end(function(t) {
+                            BrandCatalogList = [];
+                            t.raw_body.forEach(function(k) {
+                                BrandCatalogList.push(k.BrandCode)
+                            })
+                            builder.Prompts.text(session, "Presentation **" + pptname + "** is created.")
+
+                            //API request to create Rooms based on the Attachement obtained above.
+							request.post({
+                                url: 'http://kohler.azurewebsites.net/api/PresentationSetup/ImportProductsAndGetFailures',
+                                headers: {
+                                    'content-type': 'multipart/form-data',
+                                    'CSRFToken': session.message.user.RequestToken,
+                                    'Authorization': 'Bearer ' + session.message.user.token.access_token
+                                },
+                                formData: {
+                                    importRoomProductObj: '{"RoomName":"'+session.userData.RoomName+'","presentationId": "' + response.raw_body.id + '","BrandCatalogsList":' + JSON.stringify(BrandCatalogList) + '}',
+                                    importProductObj: 'null',
+                                    excelFile: {
+                                        value: request(session.message.attachments[0].contentUrl),
+                                        options: {
+                                            filename: session.message.attachments[0].name,
+                                            contentType: '*/*'
+                                        }
+                                    }
+                                }
+                            }, function(error, response, body) {
+                                if (error) throw new Error(error);
+                                console.log(response)
+                                console.log(body);
+                                if (body == JSON.stringify("Success")) {
+									//session.send("Sample Message");
+									session.endDialog();
+									session.endConversation();
+									
+                                   session.beginDialog('/Assistance', session)
+                                    //session.send('Do you need any other assistance?')
+                                    
+									console.log("*****************************inside room***********")
+									
+							
+                                } else {
+                                    session.send('Couldnot create Rooms.')
+                                }
+                            });
+						})
+						
+				}
+				else{
+					session.send('There is a server error. Please try again.')	
+				}
+
+			}) 
+			
+		}
+		else {
+            
+		session.beginDialog('/excellsheet', session)
+			//session.send('Please upload an EXCEL Sheet');
+			//session.beginDialog('/IncidentTitle', session);
+			/* session.endDialog();
+			session.endConversation(); */
+		}
+		}
+		]);
+		
+	bot.dialog('/Assistance',[
+	
+	function(session,args)
+	{
+		console.log("Inside Assistance")
+		builder.Prompts.text(session, "Do you have any other assistance?")
+		var cards = getCardsAttachments4Yes_No();
+                                    var reply = new builder.Message(session)
+                                        .attachmentLayout(builder.AttachmentLayout.carousel)
+                                        .attachments(cards);
+										session.send(reply);
+		//session.send("Do you have any other assistance?")
+	},
+		function(session, args, results) {
+        //console.log("----------------------------------------------------------", args.response)
+        session.sendTyping();
+        if (args.response == 'Yes') {
+            session.send("I can help you create Presentation or Assist with an Incident")
+			session.endDialog();
+        session.endConversation(); 
+        } else {
+
+            builder.Prompts.text(session, "Thanks. Have a great day");
+			session.endDialog();
+        session.endConversation(); 
+			
+        }
+		 
+
+        
+    }
+		
+]);
+//******************************************Excel sheet after wrong upload****************************************************************
 
 //*********************************************INCIDENT*******************************************************************
 
@@ -1227,12 +1410,10 @@ function(session,args){
                                 console.log(response)
                                 console.log(body);
                                 if (body == JSON.stringify("Success")) {
-                                    var cards = getCardsAttachments4Yes_No();
-                                    var reply = new builder.Message(session)
-                                        .attachmentLayout(builder.AttachmentLayout.carousel)
-                                        .attachments(cards);
-                                    session.send('Do you need any other assistance?')
-                                    session.send(reply);
+                                   session.endDialog();
+								   session.endConversation();
+                                    session.beginDialog('/Assistance3',session)
+                                   
                                 } else {
                                     session.send('Couldnot create Rooms.')
                                 }
@@ -1246,23 +1427,198 @@ function(session,args){
 			}) 
 		}
 		else {
-            session.send('Please upload an EXCEL Sheet');
+            session.beginDialog('/excellsheet1', session)
         }
-		}, 
+		}
+]);		
+		
+		bot.dialog('/Assistance3',[
+	
+	function(session,args)
+	{
+		console.log("Inside Assistance")
+		builder.Prompts.text(session, "Do you have any other assistance?")
+		var cards = getCardsAttachments4Yes_No();
+                                    var reply = new builder.Message(session)
+                                        .attachmentLayout(builder.AttachmentLayout.carousel)
+                                        .attachments(cards);
+										session.send(reply);
+		//session.send("Do you have any other assistance?")
+	},
 		function(session, args, results) {
-        console.log("----------------------------------------------------------", args.response)
+        //console.log("----------------------------------------------------------", args.response)
         session.sendTyping();
         if (args.response == 'Yes') {
             session.send("I can help you create Presentation or Assist with an Incident")
+			session.endDialog();
+        session.endConversation(); 
         } else {
 
             builder.Prompts.text(session, "Thanks. Have a great day");
+			session.endDialog();
+        session.endConversation(); 
+			
         }
+		 
 
-        session.endDialog();
-        session.endConversation();
+        
     }
+		
+]);
 
+bot.dialog('/excellsheet1',[
+function(session, args, results) {
+        //console.log("==========================")
+        //console.log(args.response, 'at SKUs')
+
+        session.sendTyping();
+        
+
+            builder.Prompts.attachment(session, "Problem reading **.xlsx file**! Please upload valid xlsx file")
+
+            var msg = new builder.Message(session)
+                .attachments([{
+                    name: ' You can use this template file ',
+                    contentType: 'application/octet-stream',
+                    contentUrl: 'https://specbot9555.blob.core.windows.net/myfile/SpecDeckRoomsSampleTemplate.xlsx'
+                }]);
+            session.send(msg)
+
+        
+    },
+    function(session, args, results) {
+        session.sendTyping();
+		console.log(session.userData.Customer)
+        // a REST API call for Creating Presentation
+        if (path.extname(session.message.attachments[0].name) == '.xlsx') {
+            unirest.post('http://kohler.azurewebsites.net/api/PresentationSetup')
+                .headers({
+                    'CSRFToken': session.message.user.RequestToken,
+                    'Content-Type': 'application/json',
+                    'Authorization': 'Bearer ' + session.message.user.token.access_token
+                })
+                .send({
+                    "GroupId": session.message.user.token.groupid,
+                    "CountryCode": session.userData.Customer.CountryCode,
+                    "StateCode": session.userData.Customer.StateCode,
+                    "Name": session.userData.Name,
+                    "ProjectType": session.userData.ProjectType,
+                    "customer": session.userData.Customer,//customer_name,
+                    "CoverImagePath": null,
+                    "ImageDetails": null,
+                    "selectedImage": "https://stspecdeckdev.blob.core.windows.net/medialibrary/",
+                    "BrandLogoPaths": null,
+					"validForm":true
+                })
+                .end(function(response) {
+                    console.log(response.raw_body);
+                    console.log(response);
+					if(response.ok){
+                    unirest.post('http://kohler.azurewebsites.net/api/GroupManagement/DisplayDefaultBrandCatalog')
+                        .headers({
+                            'CSRFToken': session.message.user.RequestToken,
+                            'Content-Type': 'application/json',
+                            'Authorization': 'Bearer ' + session.message.user.token.access_token
+                        })
+                        .send([session.message.user.token.groupid])
+                        .end(function(t) {
+                            BrandCatalogList = [];
+                            t.raw_body.forEach(function(k) {
+                                BrandCatalogList.push(k.BrandCode)
+                            })
+                            builder.Prompts.text(session, "Presentation **" + session.userData.Name + "** is created.")
+
+                            //API request to create Rooms based on the Attachement obtained above.
+							request.post({
+                                url: 'http://kohler.azurewebsites.net/api/PresentationSetup/ImportProductsAndGetFailures',
+                                headers: {
+                                    'content-type': 'multipart/form-data',
+                                    'CSRFToken': session.message.user.RequestToken,
+                                    'Authorization': 'Bearer ' + session.message.user.token.access_token
+                                },
+                                formData: {
+                                    importRoomProductObj: '{"RoomName":"'+session.userData.RoomName+'","presentationId": "' + response.raw_body.id + '","BrandCatalogsList":' + JSON.stringify(BrandCatalogList) + '}',
+                                    importProductObj: 'null',
+                                    excelFile: {
+                                        value: request(session.message.attachments[0].contentUrl),
+                                        options: {
+                                            filename: session.message.attachments[0].name,
+                                            contentType: '*/*'
+                                        }
+                                    }
+                                }
+                            }, function(error, response, body) {
+                                if (error) throw new Error(error);
+                                console.log(response)
+                                console.log(body);
+                                if (body == JSON.stringify("Success")) {
+									//session.send("Sample Message");
+									session.endDialog();
+									session.endConversation();
+									
+                                   session.beginDialog('/Assistance2', session)
+                                    //session.send('Do you need any other assistance?')
+                                    
+									console.log("*****************************inside room***********")
+									
+							
+                                } else {
+                                    session.send('Couldnot create Rooms.')
+                                }
+                            });
+						})
+						
+				}
+				else{
+					session.send('There is a server error. Please try again.')	
+				}
+
+			}) 
+			
+		}
+		else {
+            
+		session.beginDialog('/excellsheet1', session)
+			//session.send('Please upload an EXCEL Sheet');
+			//session.beginDialog('/IncidentTitle', session);
+			/* session.endDialog();
+			session.endConversation(); */
+		}
+		}
+		]);
+		
+	bot.dialog('/Assistance2',[
+	
+	function(session,args)
+	{
+		console.log("Inside Assistance")
+		builder.Prompts.text(session, "Do you have any other assistance?")
+		var cards = getCardsAttachments4Yes_No();
+                                    var reply = new builder.Message(session)
+                                        .attachmentLayout(builder.AttachmentLayout.carousel)
+                                        .attachments(cards);
+										session.send(reply);
+		//session.send("Do you have any other assistance?")
+	},
+		function(session, args, results) {
+        //console.log("----------------------------------------------------------", args.response)
+        session.sendTyping();
+        if (args.response == 'Yes') {
+            session.send("I can help you create Presentation or Assist with an Incident")
+			session.endDialog();
+        session.endConversation(); 
+        } else {
+
+            builder.Prompts.text(session, "Thanks. Have a great day");
+			session.endDialog();
+        session.endConversation(); 
+			
+        }
+		 
+
+        
+    }
+		
 ]);
 
 
