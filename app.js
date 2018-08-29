@@ -186,7 +186,7 @@ bot.dialog('/waterfall2', [
             return;
         }
 
-        unirest.get('http://kohler.azurewebsites.net/api/Common/GetStates/' + session.userData.Customer.CountryCode)
+        unirest.get('https://appsbotdev.azurewebsites.net/api/Common/GetStates/' + session.userData.Customer.CountryCode)
             .headers({
                 'CSRFToken': session.message.user.RequestToken,
                 'Authorization': 'Bearer ' + session.message.user.token.access_token
@@ -274,7 +274,7 @@ bot.dialog('/waterfall1', [
             return;
         }
 
-        unirest.get('http://kohler.azurewebsites.net/api/Common/GetCountries')
+        unirest.get('https://appsbotdev.azurewebsites.net/api/Common/GetCountries')
             .headers({
                 'CSRFToken': session.message.user.RequestToken,
                 'Authorization': 'Bearer ' + session.message.user.token.access_token
@@ -419,7 +419,7 @@ bot.dialog('/usergroup', [
         }
 
         //API for getting usergroup details
-        unirest.get('http://kohler.azurewebsites.net/api/GroupManagement/GetGroups')
+        unirest.get('https://appsbotdev.azurewebsites.net/api/GroupManagement/GetGroups')
             .headers({
                 'CSRFToken': session.message.user.RequestToken,
                 'Authorization': 'Bearer ' + session.message.user.token.access_token
@@ -515,9 +515,9 @@ bot.dialog('/custname', [
 		session.sendTyping();
 
 	session.userData.RoomName = session.message.text;
-	console.log('http://kohler.azurewebsites.net/api/CustomerInfo/ByName/'+session.userData.customerName);
+	console.log('https://appsbotdev.azurewebsites.net/api/CustomerInfo/ByName/'+session.userData.customerName);
         //API to get Country and state details of customer based on Customer Name above
-		unirest.get('http://kohler.azurewebsites.net/api/CustomerInfo/ByName/'+session.userData.customerName)
+		unirest.get('https://appsbotdev.azurewebsites.net/api/CustomerInfo/ByName/'+session.userData.customerName)
             .headers({
                 'CSRFToken': session.message.user.RequestToken,
                 'Authorization': 'Bearer ' + session.message.user.token.access_token
@@ -576,7 +576,7 @@ bot.dialog('/custname', [
 		console.log(session.userData.Customer)
         // a REST API call for Creating Presentation
         if (path.extname(session.message.attachments[0].name) == '.xlsx') {
-            unirest.post('http://kohler.azurewebsites.net/api/PresentationSetup')
+            unirest.post('https://appsbotdev.azurewebsites.net/api/PresentationSetup')
                 .headers({
                     'CSRFToken': session.message.user.RequestToken,
                     'Content-Type': 'application/json',
@@ -599,7 +599,7 @@ bot.dialog('/custname', [
                     console.log(response.raw_body);
                     console.log(response);
 					if(response.ok){
-                    unirest.post('http://kohler.azurewebsites.net/api/GroupManagement/DisplayDefaultBrandCatalog')
+                    unirest.post('https://appsbotdev.azurewebsites.net/api/GroupManagement/DisplayDefaultBrandCatalog')
                         .headers({
                             'CSRFToken': session.message.user.RequestToken,
                             'Content-Type': 'application/json',
@@ -615,7 +615,7 @@ bot.dialog('/custname', [
 
                             //API request to create Rooms based on the Attachement obtained above.
 							request.post({
-                                url: 'http://kohler.azurewebsites.net/api/PresentationSetup/ImportProductsAndGetFailures',
+                                url: 'https://appsbotdev.azurewebsites.net/api/PresentationSetup/ImportProductsAndGetFailures',
                                 headers: {
                                     'content-type': 'multipart/form-data',
                                     'CSRFToken': session.message.user.RequestToken,
@@ -663,7 +663,7 @@ bot.dialog('/custname', [
 		}
 		}
 ]);		
-		bot.dialog('/Assistance1',[
+		/* bot.dialog('/Assistance1',[
 	
 	function(session,args)
 	{
@@ -695,7 +695,7 @@ bot.dialog('/custname', [
         
     }
 		
-]);
+]); */
 
 //**************************************************************Excel Sheet After wrong upload***************************************
 
@@ -724,7 +724,7 @@ function(session, args, results) {
 		console.log(session.userData.Customer)
         // a REST API call for Creating Presentation
         if (path.extname(session.message.attachments[0].name) == '.xlsx') {
-            unirest.post('http://kohler.azurewebsites.net/api/PresentationSetup')
+            unirest.post('https://appsbotdev.azurewebsites.net/api/PresentationSetup')
                 .headers({
                     'CSRFToken': session.message.user.RequestToken,
                     'Content-Type': 'application/json',
@@ -747,7 +747,7 @@ function(session, args, results) {
                     console.log(response.raw_body);
                     console.log(response);
 					if(response.ok){
-                    unirest.post('http://kohler.azurewebsites.net/api/GroupManagement/DisplayDefaultBrandCatalog')
+                    unirest.post('https://appsbotdev.azurewebsites.net/api/GroupManagement/DisplayDefaultBrandCatalog')
                         .headers({
                             'CSRFToken': session.message.user.RequestToken,
                             'Content-Type': 'application/json',
@@ -763,7 +763,7 @@ function(session, args, results) {
 
                             //API request to create Rooms based on the Attachement obtained above.
 							request.post({
-                                url: 'http://kohler.azurewebsites.net/api/PresentationSetup/ImportProductsAndGetFailures',
+                                url: 'https://appsbotdev.azurewebsites.net/api/PresentationSetup/ImportProductsAndGetFailures',
                                 headers: {
                                     'content-type': 'multipart/form-data',
                                     'CSRFToken': session.message.user.RequestToken,
@@ -789,7 +789,7 @@ function(session, args, results) {
 									session.endDialog();
 									session.endConversation();
 									
-                                   session.beginDialog('/Assistance', session)
+                                   session.beginDialog('/Assistance1', session)
                                     //session.send('Do you need any other assistance?')
                                     
 									console.log("*****************************inside room***********")
@@ -820,12 +820,12 @@ function(session, args, results) {
 		}
 		]);
 		
-	bot.dialog('/Assistance',[
+	bot.dialog('/Assistance1',[
 	
 	function(session,args)
 	{
 		console.log("Inside Assistance")
-		builder.Prompts.text(session, "Do you have any other assistance?")
+		builder.Prompts.text(session, "Do you want to export the Presentation?")
 		var cards = getCardsAttachments4Yes_No();
                                     var reply = new builder.Message(session)
                                         .attachmentLayout(builder.AttachmentLayout.carousel)
@@ -837,22 +837,41 @@ function(session, args, results) {
         //console.log("----------------------------------------------------------", args.response)
         session.sendTyping();
         if (args.response == 'Yes') {
-            session.send("I can help you create Presentation or Assist with an Incident")
+            session.send("Please enter your mailid")
 			session.endDialog();
         session.endConversation(); 
         } else {
-
-            builder.Prompts.text(session, "Thanks. Have a great day");
-			session.endDialog();
-        session.endConversation(); 
-			
-        }
+					builder.Prompts.text(session, "Do you need any other assistance?")
+		var cards = getCardsAttachments4Yes_No();
+                                    var reply = new builder.Message(session)
+                                        .attachmentLayout(builder.AttachmentLayout.carousel)
+                                        .attachments(cards);
+										session.send(reply);
+           }
 		 
 
         
-    }
+    },
+	function(session, args, results) {
+        //console.log("----------------------------------------------------------", args.response)
+        session.sendTyping();
+        if (args.response == 'Yes') {
+            session.send("I can help you create Presentation or Assist with an Incident")
+			session.endDialog();
+        session.endConversation(); 
+		}
+		else{
+			builder.Prompts.text(session, "Thanks have a great day")
+			session.endDialog()
+			session.endConversation()
+			
+		}
+	}
+	
 		
 ]);
+
+
 //******************************************Excel sheet after wrong upload****************************************************************
 
 //*********************************************INCIDENT*******************************************************************
@@ -1116,7 +1135,7 @@ function(session,args)
         session.sendTyping();
 
         //API to get Country and state details of customer based on Customer Name above
-        unirest.get('http://kohler.azurewebsites.net/api/CustomerInfo/ByName/' + customer_name)
+        unirest.get('https://appsbotdev.azurewebsites.net/api/CustomerInfo/ByName/' + customer_name)
             .headers({
                 'CSRFToken': session.message.user.RequestToken,
                 'Authorization': 'Bearer ' + session.message.user.token.access_token
@@ -1170,7 +1189,7 @@ bot.dialog('/country', [
             return;
         }
 
-        unirest.get('http://kohler.azurewebsites.net/api/Common/GetCountries')
+        unirest.get('https://appsbotdev.azurewebsites.net/api/Common/GetCountries')
             .headers({
                 'CSRFToken': session.message.user.RequestToken,
                 'Authorization': 'Bearer ' + session.message.user.token.access_token
@@ -1235,7 +1254,7 @@ bot.dialog('/state', [
             return;
         }
 
-        unirest.get('http://kohler.azurewebsites.net/api/Common/GetStates/' + session.userData.Customer.CountryCode)
+        unirest.get('https://appsbotdev.azurewebsites.net/api/Common/GetStates/' + session.userData.Customer.CountryCode)
             .headers({
                 'CSRFToken': session.message.user.RequestToken,
                 'Authorization': 'Bearer ' + session.message.user.token.access_token
@@ -1344,7 +1363,7 @@ function(session,args){
 		console.log(session.userData.Customer)
         // a REST API call for Creating Presentation
         if (path.extname(session.message.attachments[0].name) == '.xlsx') {
-            unirest.post('http://kohler.azurewebsites.net/api/PresentationSetup')
+            unirest.post('https://appsbotdev.azurewebsites.net/api/PresentationSetup')
                 .headers({
                     'CSRFToken': session.message.user.RequestToken,
                     'Content-Type': 'application/json',
@@ -1367,7 +1386,7 @@ function(session,args){
         console.log(session.userData, 'Counter5 session', pptname, customer_name)
                     console.log(response);
 					if(response.ok){
-                    unirest.post('http://kohler.azurewebsites.net/api/GroupManagement/DisplayDefaultBrandCatalog')
+                    unirest.post('https://appsbotdev.azurewebsites.net/api/GroupManagement/DisplayDefaultBrandCatalog')
                         .headers({
                             'CSRFToken': session.message.user.RequestToken,
                             'Content-Type': 'application/json',
@@ -1388,7 +1407,7 @@ function(session,args){
                             console.log('{"RoomName":"'+session.userData.RoomName+'","presentationId": "' + response.raw_body.id + '","BrandCatalogsList":"' + JSON.stringify(BrandCatalogList) + '"}');
 
                             request.post({
-                                url: 'http://kohler.azurewebsites.net/api/PresentationSetup/ImportProductsAndGetFailures',
+                                url: 'https://appsbotdev.azurewebsites.net/api/PresentationSetup/ImportProductsAndGetFailures',
                                 headers: {
                                     'content-type': 'multipart/form-data',
                                     'CSRFToken': session.message.user.RequestToken,
@@ -1412,7 +1431,7 @@ function(session,args){
                                 if (body == JSON.stringify("Success")) {
                                    session.endDialog();
 								   session.endConversation();
-                                    session.beginDialog('/Assistance3',session)
+                                    session.beginDialog('/Assistance2',session)
                                    
                                 } else {
                                     session.send('Couldnot create Rooms.')
@@ -1432,7 +1451,7 @@ function(session,args){
 		}
 ]);		
 		
-		bot.dialog('/Assistance3',[
+		/* bot.dialog('/Assistance3',[
 	
 	function(session,args)
 	{
@@ -1464,7 +1483,7 @@ function(session,args){
         
     }
 		
-]);
+]); */
 
 bot.dialog('/excellsheet1',[
 function(session, args, results) {
@@ -1491,7 +1510,7 @@ function(session, args, results) {
 		console.log(session.userData.Customer)
         // a REST API call for Creating Presentation
         if (path.extname(session.message.attachments[0].name) == '.xlsx') {
-            unirest.post('http://kohler.azurewebsites.net/api/PresentationSetup')
+            unirest.post('https://appsbotdev.azurewebsites.net/api/PresentationSetup')
                 .headers({
                     'CSRFToken': session.message.user.RequestToken,
                     'Content-Type': 'application/json',
@@ -1514,7 +1533,7 @@ function(session, args, results) {
                     console.log(response.raw_body);
                     console.log(response);
 					if(response.ok){
-                    unirest.post('http://kohler.azurewebsites.net/api/GroupManagement/DisplayDefaultBrandCatalog')
+                    unirest.post('https://appsbotdev.azurewebsites.net/api/GroupManagement/DisplayDefaultBrandCatalog')
                         .headers({
                             'CSRFToken': session.message.user.RequestToken,
                             'Content-Type': 'application/json',
@@ -1530,7 +1549,7 @@ function(session, args, results) {
 
                             //API request to create Rooms based on the Attachement obtained above.
 							request.post({
-                                url: 'http://kohler.azurewebsites.net/api/PresentationSetup/ImportProductsAndGetFailures',
+                                url: 'https://appsbotdev.azurewebsites.net/api/PresentationSetup/ImportProductsAndGetFailures',
                                 headers: {
                                     'content-type': 'multipart/form-data',
                                     'CSRFToken': session.message.user.RequestToken,
@@ -1557,7 +1576,7 @@ function(session, args, results) {
 									session.endConversation();
 									
                                    session.beginDialog('/Assistance2', session)
-                                    //session.send('Do you need any other assistance?')
+                                    //session.send('')
                                     
 									console.log("*****************************inside room***********")
 									
@@ -1592,7 +1611,7 @@ function(session, args, results) {
 	function(session,args)
 	{
 		console.log("Inside Assistance")
-		builder.Prompts.text(session, "Do you have any other assistance?")
+		builder.Prompts.text(session, "Do you want to export the Presentation?")
 		var cards = getCardsAttachments4Yes_No();
                                     var reply = new builder.Message(session)
                                         .attachmentLayout(builder.AttachmentLayout.carousel)
@@ -1604,23 +1623,87 @@ function(session, args, results) {
         //console.log("----------------------------------------------------------", args.response)
         session.sendTyping();
         if (args.response == 'Yes') {
-            session.send("I can help you create Presentation or Assist with an Incident")
+            session.send("Please enter your mailid")
 			session.endDialog();
         session.endConversation(); 
         } else {
-
-            builder.Prompts.text(session, "Thanks. Have a great day");
-			session.endDialog();
-        session.endConversation(); 
-			
-        }
+					builder.Prompts.text(session, "Do you need any other assistance?")
+		var cards = getCardsAttachments4Yes_No();
+                                    var reply = new builder.Message(session)
+                                        .attachmentLayout(builder.AttachmentLayout.carousel)
+                                        .attachments(cards);
+										session.send(reply);
+           }
 		 
 
         
-    }
+    },
+	function(session, args, results) {
+        //console.log("----------------------------------------------------------", args.response)
+        session.sendTyping();
+        if (args.response == 'Yes') {
+            session.send("I can help you create Presentation or Assist with an Incident")
+			session.endDialog();
+        session.endConversation(); 
+		}
+		else{
+			builder.Prompts.text(session, "Thanks have a great day")
+			session.endDialog()
+			session.endConversation()
+			
+		}
+	}
+	
 		
 ]);
 
+dialog.matches('mailid', [
+    function(session, args) {
+        session.sendTyping();
+        ////console.log(session);
+        console.log("--------------------------------------------------------");
+        console.log(moment().format('MMMM Do YYYY, hh:mm:ss a') + " | mailid Intent Matched");
+        console.log("--------------------------------------------------------");
+		session.send("Presentation is mailed to you");
+		session.endDialog();
+		session.endConversation();
+		 session.beginDialog('/afterpptmail', session)
+
+    }
+]);
+bot.dialog('/afterpptmail',[
+
+
+function(session,args)
+	{
+		console.log("Inside Assistance")
+		builder.Prompts.text(session, "Do you need any other assistance?")
+		var cards = getCardsAttachments4Yes_No();
+                                    var reply = new builder.Message(session)
+                                        .attachmentLayout(builder.AttachmentLayout.carousel)
+                                        .attachments(cards);
+										session.send(reply);
+		
+	},
+		
+	function(session, args, results) {
+        //console.log("----------------------------------------------------------", args.response)
+        session.sendTyping();
+        if (args.response == 'Yes') {
+            session.send("I can help you create Presentation or Assist with an Incident")
+			session.endDialog();
+        session.endConversation(); 
+		}
+		else{
+			builder.Prompts.text(session, "Thanks have a great day")
+			session.endDialog()
+			session.endConversation()
+			
+		}
+	}
+	
+		
+]);
 
 /*************  MODULE TWO  ********************/
 
