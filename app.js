@@ -16,6 +16,7 @@ var fs = require('fs');
 
 var customer_name;
 var pptname;
+var pptid;
 
 /*************  MODULE TWO  ********************/
 
@@ -186,7 +187,7 @@ bot.dialog('/waterfall2', [
             return;
         }
 
-        unirest.get('https://appsbotdev.azurewebsites.net/api/Common/GetStates/' + session.userData.Customer.CountryCode)
+        unirest.get('http://appsbotdev.azurewebsites.net/api/Common/GetStates/' + session.userData.Customer.CountryCode)
             .headers({
                 'CSRFToken': session.message.user.RequestToken,
                 'Authorization': 'Bearer ' + session.message.user.token.access_token
@@ -274,7 +275,7 @@ bot.dialog('/waterfall1', [
             return;
         }
 
-        unirest.get('https://appsbotdev.azurewebsites.net/api/Common/GetCountries')
+        unirest.get('http://appsbotdev.azurewebsites.net/api/Common/GetCountries')
             .headers({
                 'CSRFToken': session.message.user.RequestToken,
                 'Authorization': 'Bearer ' + session.message.user.token.access_token
@@ -419,7 +420,7 @@ bot.dialog('/usergroup', [
         }
 
         //API for getting usergroup details
-        unirest.get('https://appsbotdev.azurewebsites.net/api/GroupManagement/GetGroups')
+        unirest.get('http://appsbotdev.azurewebsites.net/api/GroupManagement/GetGroups')
             .headers({
                 'CSRFToken': session.message.user.RequestToken,
                 'Authorization': 'Bearer ' + session.message.user.token.access_token
@@ -515,9 +516,9 @@ bot.dialog('/custname', [
 		session.sendTyping();
 
 	session.userData.RoomName = session.message.text;
-	console.log('https://appsbotdev.azurewebsites.net/api/CustomerInfo/ByName/'+session.userData.customerName);
+	console.log('http://appsbotdev.azurewebsites.net/api/CustomerInfo/ByName/'+session.userData.customerName);
         //API to get Country and state details of customer based on Customer Name above
-		unirest.get('https://appsbotdev.azurewebsites.net/api/CustomerInfo/ByName/'+session.userData.customerName)
+		unirest.get('http://appsbotdev.azurewebsites.net/api/CustomerInfo/ByName/'+session.userData.customerName)
             .headers({
                 'CSRFToken': session.message.user.RequestToken,
                 'Authorization': 'Bearer ' + session.message.user.token.access_token
@@ -576,7 +577,7 @@ bot.dialog('/custname', [
 		console.log(session.userData.Customer)
         // a REST API call for Creating Presentation
         if (path.extname(session.message.attachments[0].name) == '.xlsx') {
-            unirest.post('https://appsbotdev.azurewebsites.net/api/PresentationSetup')
+            unirest.post('http://appsbotdev.azurewebsites.net/api/PresentationSetup')
                 .headers({
                     'CSRFToken': session.message.user.RequestToken,
                     'Content-Type': 'application/json',
@@ -599,7 +600,7 @@ bot.dialog('/custname', [
                     console.log(response.raw_body);
                     console.log(response);
 					if(response.ok){
-                    unirest.post('https://appsbotdev.azurewebsites.net/api/GroupManagement/DisplayDefaultBrandCatalog')
+                    unirest.post('http://appsbotdev.azurewebsites.net/api/GroupManagement/DisplayDefaultBrandCatalog')
                         .headers({
                             'CSRFToken': session.message.user.RequestToken,
                             'Content-Type': 'application/json',
@@ -612,10 +613,11 @@ bot.dialog('/custname', [
                                 BrandCatalogList.push(k.BrandCode)
                             })
                             builder.Prompts.text(session, "Presentation **" + pptname + "** is created.")
-
-                            //API request to create Rooms based on the Attachement obtained above.
+							pptid=response.raw_body.id;
+                            
+							//API request to create Rooms based on the Attachement obtained above.
 							request.post({
-                                url: 'https://appsbotdev.azurewebsites.net/api/PresentationSetup/ImportProductsAndGetFailures',
+                                url: 'http://appsbotdev.azurewebsites.net/api/PresentationSetup/ImportProductsAndGetFailures',
                                 headers: {
                                     'content-type': 'multipart/form-data',
                                     'CSRFToken': session.message.user.RequestToken,
@@ -724,7 +726,7 @@ function(session, args, results) {
 		console.log(session.userData.Customer)
         // a REST API call for Creating Presentation
         if (path.extname(session.message.attachments[0].name) == '.xlsx') {
-            unirest.post('https://appsbotdev.azurewebsites.net/api/PresentationSetup')
+            unirest.post('http://appsbotdev.azurewebsites.net/api/PresentationSetup')
                 .headers({
                     'CSRFToken': session.message.user.RequestToken,
                     'Content-Type': 'application/json',
@@ -747,7 +749,7 @@ function(session, args, results) {
                     console.log(response.raw_body);
                     console.log(response);
 					if(response.ok){
-                    unirest.post('https://appsbotdev.azurewebsites.net/api/GroupManagement/DisplayDefaultBrandCatalog')
+                    unirest.post('http://appsbotdev.azurewebsites.net/api/GroupManagement/DisplayDefaultBrandCatalog')
                         .headers({
                             'CSRFToken': session.message.user.RequestToken,
                             'Content-Type': 'application/json',
@@ -760,10 +762,11 @@ function(session, args, results) {
                                 BrandCatalogList.push(k.BrandCode)
                             })
                             builder.Prompts.text(session, "Presentation **" + pptname + "** is created.")
+							pptid=response.raw_body.id;
 
                             //API request to create Rooms based on the Attachement obtained above.
 							request.post({
-                                url: 'https://appsbotdev.azurewebsites.net/api/PresentationSetup/ImportProductsAndGetFailures',
+                                url: 'http://appsbotdev.azurewebsites.net/api/PresentationSetup/ImportProductsAndGetFailures',
                                 headers: {
                                     'content-type': 'multipart/form-data',
                                     'CSRFToken': session.message.user.RequestToken,
@@ -1135,7 +1138,7 @@ function(session,args)
         session.sendTyping();
 
         //API to get Country and state details of customer based on Customer Name above
-        unirest.get('https://appsbotdev.azurewebsites.net/api/CustomerInfo/ByName/' + customer_name)
+        unirest.get('http://appsbotdev.azurewebsites.net/api/CustomerInfo/ByName/' + customer_name)
             .headers({
                 'CSRFToken': session.message.user.RequestToken,
                 'Authorization': 'Bearer ' + session.message.user.token.access_token
@@ -1189,7 +1192,7 @@ bot.dialog('/country', [
             return;
         }
 
-        unirest.get('https://appsbotdev.azurewebsites.net/api/Common/GetCountries')
+        unirest.get('http://appsbotdev.azurewebsites.net/api/Common/GetCountries')
             .headers({
                 'CSRFToken': session.message.user.RequestToken,
                 'Authorization': 'Bearer ' + session.message.user.token.access_token
@@ -1254,7 +1257,7 @@ bot.dialog('/state', [
             return;
         }
 
-        unirest.get('https://appsbotdev.azurewebsites.net/api/Common/GetStates/' + session.userData.Customer.CountryCode)
+        unirest.get('http://appsbotdev.azurewebsites.net/api/Common/GetStates/' + session.userData.Customer.CountryCode)
             .headers({
                 'CSRFToken': session.message.user.RequestToken,
                 'Authorization': 'Bearer ' + session.message.user.token.access_token
@@ -1337,6 +1340,7 @@ function processSubmitAction1(session, value) {
 	},
 function(session,args){
 	session.userData.Name = args.response;
+	pptname=session.userData.Name;
 		builder.Prompts.text(session, 'Enter room name');
 		
 		//session.send("Enter Room name");
@@ -1363,7 +1367,7 @@ function(session,args){
 		console.log(session.userData.Customer)
         // a REST API call for Creating Presentation
         if (path.extname(session.message.attachments[0].name) == '.xlsx') {
-            unirest.post('https://appsbotdev.azurewebsites.net/api/PresentationSetup')
+            unirest.post('http://appsbotdev.azurewebsites.net/api/PresentationSetup')
                 .headers({
                     'CSRFToken': session.message.user.RequestToken,
                     'Content-Type': 'application/json',
@@ -1373,7 +1377,7 @@ function(session,args){
                     "GroupId": session.message.user.token.groupid,
                     "CountryCode": session.userData.Customer.CountryCode,
                     "StateCode": session.userData.Customer.StateCode,
-                    "Name": session.userData.Name,
+                    "Name": pptname,
                     "ProjectType": session.userData.ProjectType,
                     "customer": session.userData.Customer,//customer_name,
                     "CoverImagePath": null,
@@ -1386,7 +1390,7 @@ function(session,args){
         console.log(session.userData, 'Counter5 session', pptname, customer_name)
                     console.log(response);
 					if(response.ok){
-                    unirest.post('https://appsbotdev.azurewebsites.net/api/GroupManagement/DisplayDefaultBrandCatalog')
+                    unirest.post('http://appsbotdev.azurewebsites.net/api/GroupManagement/DisplayDefaultBrandCatalog')
                         .headers({
                             'CSRFToken': session.message.user.RequestToken,
                             'Content-Type': 'application/json',
@@ -1403,11 +1407,13 @@ function(session,args){
                             console.log(BrandCatalogList)
 
                             builder.Prompts.text(session, "Presentation **" + session.userData.Name + "** is created.")
+							
+							pptid = response.raw_body.id;
                             //API request to create Rooms based on the Attachement obtained above.
                             console.log('{"RoomName":"'+session.userData.RoomName+'","presentationId": "' + response.raw_body.id + '","BrandCatalogsList":"' + JSON.stringify(BrandCatalogList) + '"}');
 
                             request.post({
-                                url: 'https://appsbotdev.azurewebsites.net/api/PresentationSetup/ImportProductsAndGetFailures',
+                                url: 'http://appsbotdev.azurewebsites.net/api/PresentationSetup/ImportProductsAndGetFailures',
                                 headers: {
                                     'content-type': 'multipart/form-data',
                                     'CSRFToken': session.message.user.RequestToken,
@@ -1510,7 +1516,7 @@ function(session, args, results) {
 		console.log(session.userData.Customer)
         // a REST API call for Creating Presentation
         if (path.extname(session.message.attachments[0].name) == '.xlsx') {
-            unirest.post('https://appsbotdev.azurewebsites.net/api/PresentationSetup')
+            unirest.post('http://appsbotdev.azurewebsites.net/api/PresentationSetup')
                 .headers({
                     'CSRFToken': session.message.user.RequestToken,
                     'Content-Type': 'application/json',
@@ -1520,7 +1526,7 @@ function(session, args, results) {
                     "GroupId": session.message.user.token.groupid,
                     "CountryCode": session.userData.Customer.CountryCode,
                     "StateCode": session.userData.Customer.StateCode,
-                    "Name": session.userData.Name,
+                    "Name": pptname,
                     "ProjectType": session.userData.ProjectType,
                     "customer": session.userData.Customer,//customer_name,
                     "CoverImagePath": null,
@@ -1533,7 +1539,7 @@ function(session, args, results) {
                     console.log(response.raw_body);
                     console.log(response);
 					if(response.ok){
-                    unirest.post('https://appsbotdev.azurewebsites.net/api/GroupManagement/DisplayDefaultBrandCatalog')
+                    unirest.post('http://appsbotdev.azurewebsites.net/api/GroupManagement/DisplayDefaultBrandCatalog')
                         .headers({
                             'CSRFToken': session.message.user.RequestToken,
                             'Content-Type': 'application/json',
@@ -1545,11 +1551,13 @@ function(session, args, results) {
                             t.raw_body.forEach(function(k) {
                                 BrandCatalogList.push(k.BrandCode)
                             })
-                            builder.Prompts.text(session, "Presentation **" + session.userData.Name + "** is created.")
+                            builder.Prompts.text(session, "Presentation **" + pptname + "** is created.")
+							pptid=response.raw_body.id ;
+							
 
                             //API request to create Rooms based on the Attachement obtained above.
 							request.post({
-                                url: 'https://appsbotdev.azurewebsites.net/api/PresentationSetup/ImportProductsAndGetFailures',
+                                url: 'http://appsbotdev.azurewebsites.net/api/PresentationSetup/ImportProductsAndGetFailures',
                                 headers: {
                                     'content-type': 'multipart/form-data',
                                     'CSRFToken': session.message.user.RequestToken,
@@ -1662,12 +1670,34 @@ dialog.matches('mailid', [
         session.sendTyping();
         ////console.log(session);
         console.log("--------------------------------------------------------");
-        console.log(moment().format('MMMM Do YYYY, hh:mm:ss a') + " | mailid Intent Matched");
+        console.log(moment().format('MMMM Do YYYY, hh:mm:ss a') + " | mail id Intent Matched");
         console.log("--------------------------------------------------------");
-		session.send("Presentation is mailed to you");
-		session.endDialog();
+		//session.send("Presentation is mailed to you");
+
+						var tg = {
+						"ToEmailids":  args.entities[0].entity, //get from User
+						"CcEmailids": "",
+						"Subject": pptname,
+						"PresentationName": pptname, //Name we got from user
+						"PresentationId": pptid, //get PresentationID after Presentation is created.
+						"Body": "Hello, \n\n  \n\n Here is the download link and password: \n\n  \n\n Please download and save the presentation onto your computer within 14 days of this email. After 14 days this link will expire.\n\n"
+						}
+		unirest.post('http://appsbotdev.azurewebsites.net/api/SharePresentation/Save')
+		.headers({
+			'CSRFToken': session.message.user.RequestToken,
+			'Content-Type': 'application/json',
+			'Authorization': 'Bearer ' + session.message.user.token.access_token
+			})
+		.send(tg)
+		.end(function(result2){
+			console.log(result2)
+			console.log(result2.raw_body)
+			session.send("Presentation **"+ pptname+"** is mailed to you. You'll receive a mail in a minute.")
+			session.endDialog();
 		session.endConversation();
 		 session.beginDialog('/afterpptmail', session)
+			})
+		
 
     }
 ]);
