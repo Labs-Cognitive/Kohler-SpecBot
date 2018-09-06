@@ -388,11 +388,14 @@ bot.dialog('/waterfall', [
             case 'High Rise Multi family':
                 session.userData.ProjectType = 'Proj3';
                 break;
-            case 'Single Family Home':
+				case 'Low Rise Multi family':
                 session.userData.ProjectType = 'Proj4';
                 break;
-            case 'Showroom':
+            case 'Single Family Home':
                 session.userData.ProjectType = 'Proj5';
+                break;
+            case 'Showroom':
+                session.userData.ProjectType = 'Proj6';
                 break;
             default:
                 //builder.Prompts.text(session, "Thanks. Have a great day");
@@ -1085,7 +1088,7 @@ dialog.matches('projecttype', [
 			 //args.entities[0].entity;
 			    customer_name = args.entities[0].entity.charAt(0).toUpperCase()+ args.entities[0].entity.slice(1);
 				console.log(customer_name)
-			if ((args.response == 'Commercial' || 'Hospitality' || 'High Rise Multi family' || 'Single Family Home' || 'Showroom') && (args.entities[0].type== "Entertainment.Person")) {
+			if ((args.response == 'Commercial' || 'Hospitality' || 'High Rise Multi family' || 'Single Family Home' || 'Showroom' ||'Low Rise Multi family') && (args.entities[0].type== "Entertainment.Person")) {
 				console.log(args.entities[0].entity);
 		switch (args.entities[1].entity) {
             case 'hospitality':
@@ -1097,11 +1100,14 @@ dialog.matches('projecttype', [
             case 'high rise multi family':
                 session.userData.ProjectType = 'Proj3';
                 break;
-            case 'single family home':
+				case 'low rise multi family':
                 session.userData.ProjectType = 'Proj4';
                 break;
-            case 'showroom':
+            case 'single family home':
                 session.userData.ProjectType = 'Proj5';
+                break;
+            case 'showroom':
+                session.userData.ProjectType = 'Proj6';
                 break;
             default:
                 //builder.Prompts.text(session, "Thanks. Have a great day");
