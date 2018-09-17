@@ -12,6 +12,8 @@ var path = require('path');
 var request = require('request');
 var fs = require('fs');
 
+var json2xls = require('json2xls');
+
 /*************  MODULE TWO  ********************/
 
 var customer_name;
@@ -29,6 +31,8 @@ server.listen(process.env.port || process.env.PORT || 3000, function () {
     console.log(moment().format('MMMM Do YYYY, hh:mm:ss a') + " |  KohlerBot is running with the address : " + server.url);
     console.log("--------------------------------------------------------");
 });
+
+server.get('/public/*', restify.plugins.serveStatic({ directory: __dirname }));
 
 var connector = new builder.ChatConnector({
     appId:'f136fda9-d324-4ef4-8d5a-29603381268b', 
@@ -254,7 +258,7 @@ bot.dialog('/excel', [
             .attachments([{
                 name: ' You can use this template file ',
                 contentType: 'application/octet-stream',
-                contentUrl: 'https://specbot9555.blob.core.windows.net/myfile/SpecDeckRoomsSampleTemplate.xlsx'
+                contentUrl: 'https://demodisks703.blob.core.windows.net/kohlerspecbot/SpecDeckRoomsSampleTemplate.xlsx'
             }]);
 
         session.send(msg)
@@ -567,7 +571,7 @@ bot.dialog('/custname', [
                 .attachments([{
                     name: ' You can use this template file ',
                     contentType: 'application/octet-stream',
-                    contentUrl: 'https://specbot9555.blob.core.windows.net/myfile/SpecDeckRoomsSampleTemplate.xlsx'
+                    contentUrl: 'https://demodisks703.blob.core.windows.net/kohlerspecbot/SpecDeckRoomsSampleTemplate.xlsx'
                 }]);
             session.send(msg)
 
@@ -637,16 +641,27 @@ bot.dialog('/custname', [
                                         }
                                     }
                                 }
-                            }, function(error, response, body) {
+                            }, function(error, responsee, body) {
                                 if (error) throw new Error(error);
-                                console.log(response)
-                                console.log(body);
-                                if (body == JSON.stringify("Success")) {
-                                   session.endDialog();
-								   session.endConversation();
-                                    session.beginDialog('/Assistance1',session)
-                         
-                                } else {
+                                console.log(responsee)
+                                console.log(JSON.parse(body).Message);
+                                console.log(JSON.parse(body).SuccessRecordsCount);
+                                console.log(JSON.parse(body).FailureRecordsCount);
+                                if (body == JSON.stringify("Success")) {									
+									   session.endDialog();
+									   session.endConversation();
+									   session.beginDialog('/Assistance1',session)
+                                }
+								else if(JSON.parse(body).Message == 'Export'){
+									session.send('Processing of the import files is done.');
+									session.send('**'+JSON.parse(body).SuccessRecordsCount + '** records are successfully imported.');
+									session.send('**'+JSON.parse(body).FailureRecordsCount + '** records are failed to import.');
+									   session.endDialog();
+									   session.endConversation();
+									   session.userData.success = JSON.parse(body).Jsonstring;
+									   session.beginDialog('/partialimport',session)
+								}
+								else {
                                     session.send('Couldnot create Rooms.')
                                 }
                             });
@@ -718,7 +733,7 @@ function(session, args, results) {
                 .attachments([{
                     name: ' You can use this template file ',
                     contentType: 'application/octet-stream',
-                    contentUrl: 'https://specbot9555.blob.core.windows.net/myfile/SpecDeckRoomsSampleTemplate.xlsx'
+                    contentUrl: 'https://demodisks703.blob.core.windows.net/kohlerspecbot/SpecDeckRoomsSampleTemplate.xlsx'
                 }]);
             session.send(msg)
 
@@ -826,6 +841,58 @@ function(session, args, results) {
 		}
 		]);
 		
+	bot.dialog('/partialimport',[
+	
+	function(session,args)
+	{
+	    session.sendTyping();
+		session.send('Rooms are created with the succesfully imported details.');
+		builder.Prompts.text(session, 'Do you want to download the failure imports?');
+		var cards = getCardsAttachments4Yes_No();
+        var reply = new builder.Message(session)
+                        .attachmentLayout(builder.AttachmentLayout.carousel)
+                        .attachments(cards);
+		session.send(reply);
+	},
+	function(session,args)
+	{
+	    session.sendTyping();
+		//call the API to download the failed import details.
+		var json = [];
+
+		for(i=0; i<JSON.parse(session.userData.success).length; i++){
+			json[i] = {
+				['Notes'] : ' ',
+				["BRANDCATALOG"]: JSON.parse(session.userData.success)[i].BRANDCATALOG,
+				["SKU"] : JSON.parse(session.userData.success)[i].SKU,
+				["QUANTITY"] : JSON.parse(session.userData.success)[i].QUANTITY,
+				["DESCRIPTION"] : JSON.parse(session.userData.success)[i].DESCRIPTION
+			}
+		}
+
+		var xls = json2xls(json);
+
+		fs.writeFileSync(__dirname+'/public/FailureRecords.xlsx', xls, 'binary');
+
+			if(args.response == 'Yes'){
+            var msg = new builder.Message(session)
+                .attachments([{
+                    name: 'Click here to get the details of failed imports ',
+                    contentType: 'application/octet-stream',
+                    contentUrl: 'http://kohlerspecdeck.azurewebsites.net/public/FailureRecords.xlsx'
+                }]);
+            session.send(msg)
+			session.endDialog();
+			session.endConversation();
+			session.beginDialog('/Assistance1',session)
+        } else {	
+			session.endDialog();
+			session.endConversation();
+			session.beginDialog('/Assistance1',session)
+		}
+	}
+	])
+
 	bot.dialog('/Assistance1',[
 	
 	function(session,args)
@@ -1363,7 +1430,7 @@ function(session,args){
                 .attachments([{
                     name: ' You can use this template file ',
                     contentType: 'application/octet-stream',
-                    contentUrl: 'https://specbot9555.blob.core.windows.net/myfile/SpecDeckRoomsSampleTemplate.xlsx'
+                    contentUrl: 'https://demodisks703.blob.core.windows.net/kohlerspecbot/SpecDeckRoomsSampleTemplate.xlsx'
                 }]);
             session.send(msg)
 	},
@@ -1511,7 +1578,7 @@ function(session, args, results) {
                 .attachments([{
                     name: ' You can use this template file ',
                     contentType: 'application/octet-stream',
-                    contentUrl: 'https://specbot9555.blob.core.windows.net/myfile/SpecDeckRoomsSampleTemplate.xlsx'
+                    contentUrl: 'https://demodisks703.blob.core.windows.net/kohlerspecbot/SpecDeckRoomsSampleTemplate.xlsx'
                 }]);
             session.send(msg)
 
@@ -1561,7 +1628,7 @@ function(session, args, results) {
 							pptid=response.raw_body.id ;
 							
 
-                            //API request to create Rooms based on the Attachement obtained above.
+                            //API request to create Rooms based on the Attachment obtained above.
 							request.post({
                                 url: 'http://appsbotdev.azurewebsites.net/api/PresentationSetup/ImportProductsAndGetFailures',
                                 headers: {
