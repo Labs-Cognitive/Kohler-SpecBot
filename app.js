@@ -26,7 +26,7 @@ var server = restify.createServer();
 
 /*************  MODULE ONE  ********************/
 
-server.listen(process.env.port || process.env.PORT || 3000, function () {
+server.listen(process.env.port || process.env.PORT || 4000, function () {
     console.log("--------------------------------------------------------");
     console.log(moment().format('MMMM Do YYYY, hh:mm:ss a') + " |  KohlerBot is running with the address : " + server.url);
     console.log("--------------------------------------------------------");
@@ -42,7 +42,7 @@ var connector = new builder.ChatConnector({
 var bot = new builder.UniversalBot(connector, {
     storage: new builder.MemoryBotStorage()
 });
-var model = 'https://westus.api.cognitive.microsoft.com/luis/v2.0/apps/67a4d004-c4b7-407b-9f29-b868cbfd8089?subscription-key=d325ecdf0a46401c823c283abd4c4b56&verbose=true&timezoneOffset=0&q=';	
+var model = 'https://eastus.api.cognitive.microsoft.com/luis/v2.0/apps/67a4d004-c4b7-407b-9f29-b868cbfd8089?subscription-key=5558ecec80784f159f3ea033afbe7e31&timezoneOffset=-360&q=';	
 
 var recognizer = new builder.LuisRecognizer(model);
 var dialog = new builder.IntentDialog({
@@ -814,9 +814,19 @@ function(session, args, results) {
                                     //session.send('Do you need any other assistance?')
                                     
 									console.log("*****************************inside room***********")
+									}
+									else if(JSON.parse(body).Message == 'Export'){
+									session.send('Processing of the import files is done.');
+									session.send('**'+JSON.parse(body).SuccessRecordsCount + '** records are successfully imported.');
+									session.send('**'+JSON.parse(body).FailureRecordsCount + '** records are failed to import.');
+									   session.endDialog();
+									   session.endConversation();
+									   session.userData.success = JSON.parse(body).Jsonstring;
+									   session.beginDialog('/partialimport',session)
+								}
 									
 							
-                                } else {
+                                 else {
                                     session.send('Couldnot create Rooms.')
                                 }
                             });
@@ -1512,7 +1522,18 @@ function(session,args){
 								   session.endConversation();
                                     session.beginDialog('/Assistance2',session)
                                    
-                                } else {
+                                }
+										else if(JSON.parse(body).Message == 'Export'){
+									session.send('Processing of the import files is done.');
+									session.send('**'+JSON.parse(body).SuccessRecordsCount + '** records are successfully imported.');
+									session.send('**'+JSON.parse(body).FailureRecordsCount + '** records are failed to import.');
+									   session.endDialog();
+									   session.endConversation();
+									   session.userData.success = JSON.parse(body).Jsonstring;
+									   session.beginDialog('/partialimport',session)
+								}								
+								
+								else {
                                     session.send('Couldnot create Rooms.')
                                 }
                             });
@@ -1662,7 +1683,19 @@ function(session, args, results) {
 									console.log("*****************************inside room***********")
 									
 							
-                                } else {
+                                } 
+								
+										else if(JSON.parse(body).Message == 'Export'){
+									session.send('Processing of the import files is done.');
+									session.send('**'+JSON.parse(body).SuccessRecordsCount + '** records are successfully imported.');
+									session.send('**'+JSON.parse(body).FailureRecordsCount + '** records are failed to import.');
+									   session.endDialog();
+									   session.endConversation();
+									   session.userData.success = JSON.parse(body).Jsonstring;
+									   session.beginDialog('/partialimport',session)
+								}
+								
+								else {
                                     session.send('Couldnot create Rooms.')
                                 }
                             });
