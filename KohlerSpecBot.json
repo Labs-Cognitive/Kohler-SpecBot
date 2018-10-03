@@ -1,0 +1,2711 @@
+{
+  "luis_schema_version": "3.1.0",
+  "versionId": "0.1",
+  "name": "KohlerSpecBot",
+  "desc": "",
+  "culture": "en-us",
+  "intents": [
+    {
+      "name": "assistance_no"
+    },
+    {
+      "name": "capabilities"
+    },
+    {
+      "name": "countryname"
+    },
+    {
+      "name": "greetings"
+    },
+    {
+      "name": "Incident"
+    },
+    {
+      "name": "mailid"
+    },
+    {
+      "name": "None"
+    },
+    {
+      "name": "pptname"
+    },
+    {
+      "name": "projecttype"
+    },
+    {
+      "name": "question"
+    },
+    {
+      "name": "thankyou"
+    }
+  ],
+  "entities": [
+    {
+      "name": "Entertainment.Person",
+      "inherits": {
+        "domain_name": "Entertainment",
+        "model_name": "Person"
+      },
+      "roles": []
+    },
+    {
+      "name": "Entertainment.Title",
+      "inherits": {
+        "domain_name": "Entertainment",
+        "model_name": "Title"
+      },
+      "roles": []
+    },
+    {
+      "name": "IncidentCreate",
+      "roles": []
+    },
+    {
+      "name": "Presentation",
+      "children": [
+        "create",
+        "open"
+      ],
+      "roles": []
+    },
+    {
+      "name": "ProjectType",
+      "children": [
+        "Commercial",
+        "High Rise Multi family",
+        "Hospitality",
+        "Low Rise Multi family",
+        "Single Family home",
+        "Showroom"
+      ],
+      "roles": []
+    }
+  ],
+  "composites": [],
+  "closedLists": [],
+  "patternAnyEntities": [],
+  "regex_entities": [],
+  "prebuiltEntities": [
+    {
+      "name": "email",
+      "roles": []
+    }
+  ],
+  "model_features": [],
+  "regex_features": [],
+  "patterns": [],
+  "utterances": [
+    {
+      "text": "897 pancake house on tuesday 1 : 00 pm please",
+      "intent": "None",
+      "entities": []
+    },
+    {
+      "text": "add an event to visit 209 nashville gym",
+      "intent": "None",
+      "entities": []
+    },
+    {
+      "text": "add to my calender daddy daughter dance at meadowbrook",
+      "intent": "None",
+      "entities": []
+    },
+    {
+      "text": "add to tuesday ' s calender visting milos bar tequila",
+      "intent": "None",
+      "entities": []
+    },
+    {
+      "text": "affordable insurance washington ave albany ny 12222 please",
+      "intent": "None",
+      "entities": []
+    },
+    {
+      "text": "are you helpful in creating a presentation",
+      "intent": "question",
+      "entities": [
+        {
+          "entity": "Presentation::create",
+          "startPos": 19,
+          "endPos": 26
+        }
+      ]
+    },
+    {
+      "text": "bayonne yellow cab please",
+      "intent": "None",
+      "entities": []
+    },
+    {
+      "text": "bbq near olympia wa please",
+      "intent": "None",
+      "entities": []
+    },
+    {
+      "text": "bend oregon exotic restaurants please",
+      "intent": "None",
+      "entities": []
+    },
+    {
+      "text": "boston",
+      "intent": "countryname",
+      "entities": []
+    },
+    {
+      "text": "boudoir photo shoot ballard",
+      "intent": "None",
+      "entities": []
+    },
+    {
+      "text": "buy 2 tickets for the louvre museum",
+      "intent": "None",
+      "entities": []
+    },
+    {
+      "text": "buy 2 tickets to the seattle storm game at key arena this monday",
+      "intent": "None",
+      "entities": []
+    },
+    {
+      "text": "buy 4 tickets to the billy joel concert at safeco field",
+      "intent": "None",
+      "entities": []
+    },
+    {
+      "text": "calendar i ' ll be at the garage from 8 till 3 this saturday",
+      "intent": "None",
+      "entities": []
+    },
+    {
+      "text": "can you create a presentation for me?",
+      "intent": "question",
+      "entities": [
+        {
+          "entity": "Presentation::create",
+          "startPos": 8,
+          "endPos": 13
+        }
+      ]
+    },
+    {
+      "text": "can you create a presentation specdeck",
+      "intent": "pptname",
+      "entities": [
+        {
+          "entity": "Presentation::create",
+          "startPos": 8,
+          "endPos": 13
+        },
+        {
+          "entity": "Entertainment.Title",
+          "startPos": 30,
+          "endPos": 37
+        }
+      ]
+    },
+    {
+      "text": "can you create a presentation with name specdeck@435",
+      "intent": "pptname",
+      "entities": [
+        {
+          "entity": "Presentation::create",
+          "startPos": 8,
+          "endPos": 13
+        },
+        {
+          "entity": "Entertainment.Title",
+          "startPos": 40,
+          "endPos": 51
+        }
+      ]
+    },
+    {
+      "text": "can you create me a project type hospitality for the customer john",
+      "intent": "projecttype",
+      "entities": [
+        {
+          "entity": "ProjectType::Hospitality",
+          "startPos": 33,
+          "endPos": 43
+        },
+        {
+          "entity": "Entertainment.Person",
+          "startPos": 62,
+          "endPos": 65
+        }
+      ]
+    },
+    {
+      "text": "can you find tickets for lego land",
+      "intent": "None",
+      "entities": []
+    },
+    {
+      "text": "can you guide me in creating an incident",
+      "intent": "Incident",
+      "entities": [
+        {
+          "entity": "IncidentCreate",
+          "startPos": 32,
+          "endPos": 39
+        }
+      ]
+    },
+    {
+      "text": "can you help me in creating a presentation",
+      "intent": "question",
+      "entities": [
+        {
+          "entity": "Presentation::create",
+          "startPos": 19,
+          "endPos": 26
+        }
+      ]
+    },
+    {
+      "text": "can you help me in creating a presentation with name simple84",
+      "intent": "pptname",
+      "entities": [
+        {
+          "entity": "Presentation::create",
+          "startPos": 19,
+          "endPos": 26
+        },
+        {
+          "entity": "Entertainment.Title",
+          "startPos": 53,
+          "endPos": 60
+        }
+      ]
+    },
+    {
+      "text": "can you help me in creating incident",
+      "intent": "Incident",
+      "entities": [
+        {
+          "entity": "IncidentCreate",
+          "startPos": 19,
+          "endPos": 35
+        }
+      ]
+    },
+    {
+      "text": "can you help me to create a presentation with name dsafdg",
+      "intent": "pptname",
+      "entities": [
+        {
+          "entity": "Presentation::create",
+          "startPos": 19,
+          "endPos": 24
+        },
+        {
+          "entity": "Entertainment.Title",
+          "startPos": 51,
+          "endPos": 56
+        }
+      ]
+    },
+    {
+      "text": "can you help me to create a presentation with name kohl_1",
+      "intent": "pptname",
+      "entities": [
+        {
+          "entity": "Presentation::create",
+          "startPos": 19,
+          "endPos": 24
+        },
+        {
+          "entity": "Entertainment.Title",
+          "startPos": 51,
+          "endPos": 56
+        }
+      ]
+    },
+    {
+      "text": "can you help to create a presentation with name test-50-products",
+      "intent": "pptname",
+      "entities": [
+        {
+          "entity": "Presentation::create",
+          "startPos": 16,
+          "endPos": 21
+        },
+        {
+          "entity": "Entertainment.Title",
+          "startPos": 48,
+          "endPos": 63
+        }
+      ]
+    },
+    {
+      "text": "can you please open presentation",
+      "intent": "question",
+      "entities": [
+        {
+          "entity": "Presentation::open",
+          "startPos": 15,
+          "endPos": 18
+        }
+      ]
+    },
+    {
+      "text": "check for seattle i - 5 accident",
+      "intent": "None",
+      "entities": []
+    },
+    {
+      "text": "could you please help me in creating a presentation",
+      "intent": "question",
+      "entities": [
+        {
+          "entity": "Presentation::create",
+          "startPos": 28,
+          "endPos": 35
+        }
+      ]
+    },
+    {
+      "text": "create a high rise multi family project type for the user richard",
+      "intent": "projecttype",
+      "entities": [
+        {
+          "entity": "ProjectType::High Rise Multi family",
+          "startPos": 9,
+          "endPos": 30
+        },
+        {
+          "entity": "Entertainment.Person",
+          "startPos": 58,
+          "endPos": 64
+        }
+      ]
+    },
+    {
+      "text": "create a presentation",
+      "intent": "question",
+      "entities": [
+        {
+          "entity": "Presentation::create",
+          "startPos": 9,
+          "endPos": 20
+        }
+      ]
+    },
+    {
+      "text": "create a presentation name",
+      "intent": "question",
+      "entities": [
+        {
+          "entity": "Presentation::create",
+          "startPos": 9,
+          "endPos": 20
+        }
+      ]
+    },
+    {
+      "text": "create a presentation simple as the name",
+      "intent": "pptname",
+      "entities": [
+        {
+          "entity": "Presentation::create",
+          "startPos": 9,
+          "endPos": 20
+        },
+        {
+          "entity": "Entertainment.Title",
+          "startPos": 22,
+          "endPos": 27
+        }
+      ]
+    },
+    {
+      "text": "create a presentation stating name as",
+      "intent": "question",
+      "entities": [
+        {
+          "entity": "Presentation::create",
+          "startPos": 9,
+          "endPos": 20
+        }
+      ]
+    },
+    {
+      "text": "create a presentation stating newsample",
+      "intent": "pptname",
+      "entities": [
+        {
+          "entity": "Presentation::create",
+          "startPos": 9,
+          "endPos": 20
+        },
+        {
+          "entity": "Entertainment.Title",
+          "startPos": 30,
+          "endPos": 38
+        }
+      ]
+    },
+    {
+      "text": "create a presentation with name sample",
+      "intent": "pptname",
+      "entities": [
+        {
+          "entity": "Presentation::create",
+          "startPos": 0,
+          "endPos": 5
+        },
+        {
+          "entity": "Entertainment.Title",
+          "startPos": 32,
+          "endPos": 37
+        }
+      ]
+    },
+    {
+      "text": "create a project type commercial for the customer ganesh",
+      "intent": "projecttype",
+      "entities": [
+        {
+          "entity": "ProjectType::Commercial",
+          "startPos": 22,
+          "endPos": 31
+        },
+        {
+          "entity": "Entertainment.Person",
+          "startPos": 50,
+          "endPos": 55
+        }
+      ]
+    },
+    {
+      "text": "create a project type commercial for the user james",
+      "intent": "projecttype",
+      "entities": [
+        {
+          "entity": "ProjectType::Commercial",
+          "startPos": 22,
+          "endPos": 31
+        },
+        {
+          "entity": "Entertainment.Person",
+          "startPos": 46,
+          "endPos": 50
+        }
+      ]
+    },
+    {
+      "text": "create a project type commercial for user name ganesh",
+      "intent": "projecttype",
+      "entities": [
+        {
+          "entity": "ProjectType::Commercial",
+          "startPos": 22,
+          "endPos": 31
+        },
+        {
+          "entity": "Entertainment.Person",
+          "startPos": 47,
+          "endPos": 52
+        }
+      ]
+    },
+    {
+      "text": "create a project type for customer james",
+      "intent": "projecttype",
+      "entities": [
+        {
+          "entity": "Entertainment.Person",
+          "startPos": 35,
+          "endPos": 39
+        }
+      ]
+    },
+    {
+      "text": "create a project type high rise multi family for the customer corals",
+      "intent": "projecttype",
+      "entities": [
+        {
+          "entity": "ProjectType::High Rise Multi family",
+          "startPos": 22,
+          "endPos": 43
+        },
+        {
+          "entity": "Entertainment.Person",
+          "startPos": 62,
+          "endPos": 67
+        }
+      ]
+    },
+    {
+      "text": "create a project type hospitality",
+      "intent": "projecttype",
+      "entities": [
+        {
+          "entity": "ProjectType::Hospitality",
+          "startPos": 22,
+          "endPos": 32
+        }
+      ]
+    },
+    {
+      "text": "create a project type hospitality for the customer chandra",
+      "intent": "projecttype",
+      "entities": [
+        {
+          "entity": "ProjectType::Commercial",
+          "startPos": 22,
+          "endPos": 32
+        },
+        {
+          "entity": "Entertainment.Person",
+          "startPos": 51,
+          "endPos": 57
+        }
+      ]
+    },
+    {
+      "text": "create a project type hospitality for user ganesh",
+      "intent": "projecttype",
+      "entities": [
+        {
+          "entity": "ProjectType::Hospitality",
+          "startPos": 22,
+          "endPos": 32
+        },
+        {
+          "entity": "Entertainment.Person",
+          "startPos": 43,
+          "endPos": 48
+        }
+      ]
+    },
+    {
+      "text": "create a project type low rise multi family for the customer john",
+      "intent": "projecttype",
+      "entities": [
+        {
+          "entity": "ProjectType::Low Rise Multi family",
+          "startPos": 22,
+          "endPos": 42
+        },
+        {
+          "entity": "Entertainment.Person",
+          "startPos": 61,
+          "endPos": 64
+        }
+      ]
+    },
+    {
+      "text": "create a project type showroom for customer anjilina",
+      "intent": "projecttype",
+      "entities": [
+        {
+          "entity": "ProjectType::Showroom",
+          "startPos": 22,
+          "endPos": 29
+        },
+        {
+          "entity": "Entertainment.Person",
+          "startPos": 44,
+          "endPos": 51
+        }
+      ]
+    },
+    {
+      "text": "create a project type showroom for the cust jamesandrews",
+      "intent": "projecttype",
+      "entities": [
+        {
+          "entity": "ProjectType::Showroom",
+          "startPos": 22,
+          "endPos": 29
+        },
+        {
+          "entity": "Entertainment.Title",
+          "startPos": 44,
+          "endPos": 55
+        }
+      ]
+    },
+    {
+      "text": "create a project type single family home for customer orland",
+      "intent": "projecttype",
+      "entities": [
+        {
+          "entity": "ProjectType::Single Family home",
+          "startPos": 22,
+          "endPos": 39
+        },
+        {
+          "entity": "Entertainment.Person",
+          "startPos": 54,
+          "endPos": 59
+        }
+      ]
+    },
+    {
+      "text": "create a project type with name single family home for the user andrews",
+      "intent": "projecttype",
+      "entities": [
+        {
+          "entity": "ProjectType::Single Family home",
+          "startPos": 32,
+          "endPos": 49
+        },
+        {
+          "entity": "Entertainment.Person",
+          "startPos": 64,
+          "endPos": 70
+        }
+      ]
+    },
+    {
+      "text": "create an incident",
+      "intent": "Incident",
+      "entities": [
+        {
+          "entity": "IncidentCreate",
+          "startPos": 10,
+          "endPos": 17
+        }
+      ]
+    },
+    {
+      "text": "create incident",
+      "intent": "Incident",
+      "entities": [
+        {
+          "entity": "IncidentCreate",
+          "startPos": 0,
+          "endPos": 14
+        }
+      ]
+    },
+    {
+      "text": "create me a presentation",
+      "intent": "question",
+      "entities": [
+        {
+          "entity": "Presentation::create",
+          "startPos": 0,
+          "endPos": 5
+        }
+      ]
+    },
+    {
+      "text": "create me a presentation name with name testwj1_copy",
+      "intent": "pptname",
+      "entities": [
+        {
+          "entity": "Presentation::create",
+          "startPos": 0,
+          "endPos": 5
+        },
+        {
+          "entity": "Presentation::create",
+          "startPos": 12,
+          "endPos": 23
+        },
+        {
+          "entity": "Entertainment.Title",
+          "startPos": 40,
+          "endPos": 51
+        }
+      ]
+    },
+    {
+      "text": "create me a presentation with a name as firstppt",
+      "intent": "pptname",
+      "entities": [
+        {
+          "entity": "Presentation::create",
+          "startPos": 0,
+          "endPos": 5
+        },
+        {
+          "entity": "Entertainment.Title",
+          "startPos": 40,
+          "endPos": 47
+        }
+      ]
+    },
+    {
+      "text": "create me a presentation with name",
+      "intent": "question",
+      "entities": [
+        {
+          "entity": "Presentation::create",
+          "startPos": 0,
+          "endPos": 5
+        }
+      ]
+    },
+    {
+      "text": "create me a presentation with name d3rw#456",
+      "intent": "pptname",
+      "entities": [
+        {
+          "entity": "Presentation::create",
+          "startPos": 0,
+          "endPos": 5
+        },
+        {
+          "entity": "Entertainment.Title",
+          "startPos": 35,
+          "endPos": 42
+        }
+      ]
+    },
+    {
+      "text": "create me a presentation with name reprod-1708",
+      "intent": "pptname",
+      "entities": [
+        {
+          "entity": "Presentation::create",
+          "startPos": 0,
+          "endPos": 5
+        },
+        {
+          "entity": "Entertainment.Title",
+          "startPos": 35,
+          "endPos": 45
+        }
+      ]
+    },
+    {
+      "text": "create me an incident",
+      "intent": "Incident",
+      "entities": [
+        {
+          "entity": "IncidentCreate",
+          "startPos": 13,
+          "endPos": 20
+        }
+      ]
+    },
+    {
+      "text": "create me name presentation",
+      "intent": "question",
+      "entities": [
+        {
+          "entity": "Presentation::create",
+          "startPos": 0,
+          "endPos": 5
+        }
+      ]
+    },
+    {
+      "text": "create presentation",
+      "intent": "question",
+      "entities": [
+        {
+          "entity": "Presentation::create",
+          "startPos": 7,
+          "endPos": 18
+        }
+      ]
+    },
+    {
+      "text": "create presentation with title test",
+      "intent": "pptname",
+      "entities": [
+        {
+          "entity": "Presentation::create",
+          "startPos": 0,
+          "endPos": 5
+        },
+        {
+          "entity": "Entertainment.Title",
+          "startPos": 31,
+          "endPos": 34
+        }
+      ]
+    },
+    {
+      "text": "creating a presentation",
+      "intent": "question",
+      "entities": [
+        {
+          "entity": "Presentation::create",
+          "startPos": 0,
+          "endPos": 22
+        }
+      ]
+    },
+    {
+      "text": "display a hd version of iron man 3",
+      "intent": "None",
+      "entities": [
+        {
+          "entity": "Entertainment.Title",
+          "startPos": 24,
+          "endPos": 33
+        }
+      ]
+    },
+    {
+      "text": "display johnny depp movies",
+      "intent": "None",
+      "entities": [
+        {
+          "entity": "Entertainment.Person",
+          "startPos": 8,
+          "endPos": 18
+        }
+      ]
+    },
+    {
+      "text": "display lego movie trailer",
+      "intent": "None",
+      "entities": [
+        {
+          "entity": "Entertainment.Title",
+          "startPos": 8,
+          "endPos": 11
+        }
+      ]
+    },
+    {
+      "text": "display minecraft videos",
+      "intent": "None",
+      "entities": [
+        {
+          "entity": "Entertainment.Title",
+          "startPos": 8,
+          "endPos": 16
+        }
+      ]
+    },
+    {
+      "text": "do you have a video game called killer instinct",
+      "intent": "None",
+      "entities": [
+        {
+          "entity": "Entertainment.Title",
+          "startPos": 32,
+          "endPos": 46
+        }
+      ]
+    },
+    {
+      "text": "dog friendly hotel shasta california",
+      "intent": "None",
+      "entities": []
+    },
+    {
+      "text": "dsw shoes 7804 on monday 3 : 00 pm",
+      "intent": "None",
+      "entities": []
+    },
+    {
+      "text": "dunmore pa sonic sounds friday morning please",
+      "intent": "None",
+      "entities": []
+    },
+    {
+      "text": "find action flicks or hugh jackman movies",
+      "intent": "None",
+      "entities": [
+        {
+          "entity": "Entertainment.Person",
+          "startPos": 22,
+          "endPos": 33
+        }
+      ]
+    },
+    {
+      "text": "find me all alternative rock by smashing pumpkins",
+      "intent": "None",
+      "entities": [
+        {
+          "entity": "Entertainment.Person",
+          "startPos": 32,
+          "endPos": 48
+        }
+      ]
+    },
+    {
+      "text": "find me tickets for deftones at pnc",
+      "intent": "None",
+      "entities": []
+    },
+    {
+      "text": "find r kelly dance songs locate greatest hits by toni braxton",
+      "intent": "None",
+      "entities": [
+        {
+          "entity": "Entertainment.Person",
+          "startPos": 5,
+          "endPos": 11
+        },
+        {
+          "entity": "Entertainment.Title",
+          "startPos": 32,
+          "endPos": 44
+        },
+        {
+          "entity": "Entertainment.Person",
+          "startPos": 49,
+          "endPos": 60
+        }
+      ]
+    },
+    {
+      "text": "find redmond ridge golf",
+      "intent": "None",
+      "entities": []
+    },
+    {
+      "text": "for a customer anjela create a project type commercial",
+      "intent": "projecttype",
+      "entities": [
+        {
+          "entity": "Entertainment.Person",
+          "startPos": 15,
+          "endPos": 20
+        },
+        {
+          "entity": "ProjectType::Commercial",
+          "startPos": 44,
+          "endPos": 53
+        }
+      ]
+    },
+    {
+      "text": "for a user sherlock create high rise multi family as a project type",
+      "intent": "projecttype",
+      "entities": [
+        {
+          "entity": "Entertainment.Person",
+          "startPos": 11,
+          "endPos": 18
+        },
+        {
+          "entity": "ProjectType::High Rise Multi family",
+          "startPos": 27,
+          "endPos": 48
+        }
+      ]
+    },
+    {
+      "text": "freetrail",
+      "intent": "pptname",
+      "entities": [
+        {
+          "entity": "Entertainment.Title",
+          "startPos": 0,
+          "endPos": 8
+        }
+      ]
+    },
+    {
+      "text": "get me tapestry or songs by carole king",
+      "intent": "None",
+      "entities": [
+        {
+          "entity": "Entertainment.Title",
+          "startPos": 7,
+          "endPos": 14
+        },
+        {
+          "entity": "Entertainment.Person",
+          "startPos": 28,
+          "endPos": 38
+        }
+      ]
+    },
+    {
+      "text": "give the title for my presentation as myfirstcreation and create it",
+      "intent": "pptname",
+      "entities": [
+        {
+          "entity": "Entertainment.Title",
+          "startPos": 38,
+          "endPos": 52
+        },
+        {
+          "entity": "Presentation::create",
+          "startPos": 58,
+          "endPos": 63
+        }
+      ]
+    },
+    {
+      "text": "gospel song name of artist and i ' m reaching for greater",
+      "intent": "None",
+      "entities": [
+        {
+          "entity": "Entertainment.Title",
+          "startPos": 31,
+          "endPos": 56
+        }
+      ]
+    },
+    {
+      "text": "grand view lodge resort - josh raether",
+      "intent": "pptname",
+      "entities": [
+        {
+          "entity": "Entertainment.Title",
+          "startPos": 0,
+          "endPos": 37
+        }
+      ]
+    },
+    {
+      "text": "guide me in creating an incident",
+      "intent": "Incident",
+      "entities": [
+        {
+          "entity": "IncidentCreate",
+          "startPos": 24,
+          "endPos": 31
+        }
+      ]
+    },
+    {
+      "text": "guide me through creating a presentation",
+      "intent": "question",
+      "entities": [
+        {
+          "entity": "Presentation::create",
+          "startPos": 17,
+          "endPos": 39
+        }
+      ]
+    },
+    {
+      "text": "hai",
+      "intent": "greetings",
+      "entities": []
+    },
+    {
+      "text": "hello",
+      "intent": "greetings",
+      "entities": []
+    },
+    {
+      "text": "help me creating presentation",
+      "intent": "question",
+      "entities": [
+        {
+          "entity": "Presentation::create",
+          "startPos": 8,
+          "endPos": 28
+        }
+      ]
+    },
+    {
+      "text": "help me in creating a presentation having name pptspec",
+      "intent": "pptname",
+      "entities": [
+        {
+          "entity": "Presentation::create",
+          "startPos": 11,
+          "endPos": 18
+        },
+        {
+          "entity": "Entertainment.Title",
+          "startPos": 47,
+          "endPos": 53
+        }
+      ]
+    },
+    {
+      "text": "help me in creating a presentation name as specdecksample",
+      "intent": "pptname",
+      "entities": [
+        {
+          "entity": "Presentation::create",
+          "startPos": 11,
+          "endPos": 18
+        },
+        {
+          "entity": "Entertainment.Title",
+          "startPos": 43,
+          "endPos": 56
+        }
+      ]
+    },
+    {
+      "text": "help me in creating a presentation with name",
+      "intent": "question",
+      "entities": [
+        {
+          "entity": "Presentation::create",
+          "startPos": 11,
+          "endPos": 18
+        }
+      ]
+    },
+    {
+      "text": "help me in creating a presentation with name kolherspec",
+      "intent": "pptname",
+      "entities": [
+        {
+          "entity": "Presentation::create",
+          "startPos": 11,
+          "endPos": 18
+        },
+        {
+          "entity": "Entertainment.Title",
+          "startPos": 45,
+          "endPos": 54
+        }
+      ]
+    },
+    {
+      "text": "help me in creating a presentation with name testpresentation11-08",
+      "intent": "pptname",
+      "entities": [
+        {
+          "entity": "Presentation::create",
+          "startPos": 11,
+          "endPos": 18
+        },
+        {
+          "entity": "Entertainment.Title",
+          "startPos": 45,
+          "endPos": 65
+        }
+      ]
+    },
+    {
+      "text": "help me in creating high rise multi family as a project type for the customer bond",
+      "intent": "projecttype",
+      "entities": [
+        {
+          "entity": "ProjectType::High Rise Multi family",
+          "startPos": 20,
+          "endPos": 41
+        },
+        {
+          "entity": "Entertainment.Person",
+          "startPos": 78,
+          "endPos": 81
+        }
+      ]
+    },
+    {
+      "text": "help me in creating hospitality as a project type",
+      "intent": "projecttype",
+      "entities": [
+        {
+          "entity": "ProjectType::Hospitality",
+          "startPos": 20,
+          "endPos": 30
+        }
+      ]
+    },
+    {
+      "text": "help me in creating hospitality as project type for a customer julia",
+      "intent": "projecttype",
+      "entities": [
+        {
+          "entity": "ProjectType::Hospitality",
+          "startPos": 20,
+          "endPos": 30
+        },
+        {
+          "entity": "Entertainment.Person",
+          "startPos": 63,
+          "endPos": 67
+        }
+      ]
+    },
+    {
+      "text": "help me in creating incident",
+      "intent": "Incident",
+      "entities": [
+        {
+          "entity": "IncidentCreate",
+          "startPos": 11,
+          "endPos": 27
+        }
+      ]
+    },
+    {
+      "text": "help me in creating presentation",
+      "intent": "question",
+      "entities": [
+        {
+          "entity": "Presentation::create",
+          "startPos": 11,
+          "endPos": 18
+        }
+      ]
+    },
+    {
+      "text": "help me in opening presentation",
+      "intent": "question",
+      "entities": [
+        {
+          "entity": "Presentation::open",
+          "startPos": 11,
+          "endPos": 17
+        }
+      ]
+    },
+    {
+      "text": "help me to create a presentation",
+      "intent": "question",
+      "entities": [
+        {
+          "entity": "Presentation::create",
+          "startPos": 11,
+          "endPos": 16
+        }
+      ]
+    },
+    {
+      "text": "help me to create a presentation with name dfgt_215",
+      "intent": "pptname",
+      "entities": [
+        {
+          "entity": "Presentation::create",
+          "startPos": 11,
+          "endPos": 16
+        },
+        {
+          "entity": "Entertainment.Title",
+          "startPos": 43,
+          "endPos": 50
+        }
+      ]
+    },
+    {
+      "text": "help me with incident creation",
+      "intent": "Incident",
+      "entities": [
+        {
+          "entity": "IncidentCreate",
+          "startPos": 13,
+          "endPos": 29
+        }
+      ]
+    },
+    {
+      "text": "help to create incident",
+      "intent": "Incident",
+      "entities": [
+        {
+          "entity": "IncidentCreate",
+          "startPos": 8,
+          "endPos": 22
+        }
+      ]
+    },
+    {
+      "text": "hey",
+      "intent": "greetings",
+      "entities": []
+    },
+    {
+      "text": "hey can you create a project type high rise multi family for the user orchad",
+      "intent": "projecttype",
+      "entities": [
+        {
+          "entity": "ProjectType::High Rise Multi family",
+          "startPos": 34,
+          "endPos": 55
+        },
+        {
+          "entity": "Entertainment.Person",
+          "startPos": 70,
+          "endPos": 75
+        }
+      ]
+    },
+    {
+      "text": "hey can you create me a presentation with kohlerspectest",
+      "intent": "pptname",
+      "entities": [
+        {
+          "entity": "Presentation::create",
+          "startPos": 12,
+          "endPos": 17
+        },
+        {
+          "entity": "Entertainment.Title",
+          "startPos": 42,
+          "endPos": 55
+        }
+      ]
+    },
+    {
+      "text": "hey create me the presentation with name sampletest",
+      "intent": "pptname",
+      "entities": [
+        {
+          "entity": "Presentation::create",
+          "startPos": 4,
+          "endPos": 9
+        },
+        {
+          "entity": "Entertainment.Title",
+          "startPos": 41,
+          "endPos": 50
+        }
+      ]
+    },
+    {
+      "text": "hey i need to create a presentation having a name as testkohlerppt",
+      "intent": "pptname",
+      "entities": [
+        {
+          "entity": "Presentation::create",
+          "startPos": 14,
+          "endPos": 19
+        },
+        {
+          "entity": "Entertainment.Title",
+          "startPos": 53,
+          "endPos": 65
+        }
+      ]
+    },
+    {
+      "text": "hey spec bot, what can you do",
+      "intent": "capabilities",
+      "entities": []
+    },
+    {
+      "text": "hey you what do you do",
+      "intent": "capabilities",
+      "entities": []
+    },
+    {
+      "text": "hey, create me a presentation with name testing",
+      "intent": "pptname",
+      "entities": [
+        {
+          "entity": "Presentation::create",
+          "startPos": 5,
+          "endPos": 10
+        },
+        {
+          "entity": "Entertainment.Title",
+          "startPos": 40,
+          "endPos": 46
+        }
+      ]
+    },
+    {
+      "text": "hi",
+      "intent": "greetings",
+      "entities": []
+    },
+    {
+      "text": "holiday inn milwaukee_copy",
+      "intent": "pptname",
+      "entities": [
+        {
+          "entity": "Entertainment.Title",
+          "startPos": 0,
+          "endPos": 25
+        }
+      ]
+    },
+    {
+      "text": "holomap stockholm metro (3d map) please",
+      "intent": "None",
+      "entities": []
+    },
+    {
+      "text": "hospitality as project type",
+      "intent": "projecttype",
+      "entities": [
+        {
+          "entity": "ProjectType::Hospitality",
+          "startPos": 0,
+          "endPos": 10
+        }
+      ]
+    },
+    {
+      "text": "how can you help me",
+      "intent": "capabilities",
+      "entities": []
+    },
+    {
+      "text": "how can you help me in creating a presentation",
+      "intent": "question",
+      "entities": [
+        {
+          "entity": "Presentation::create",
+          "startPos": 23,
+          "endPos": 30
+        }
+      ]
+    },
+    {
+      "text": "i need help in creating presentation",
+      "intent": "question",
+      "entities": []
+    },
+    {
+      "text": "i need to create a presentation",
+      "intent": "question",
+      "entities": [
+        {
+          "entity": "Presentation::create",
+          "startPos": 10,
+          "endPos": 15
+        }
+      ]
+    },
+    {
+      "text": "i need to create incident",
+      "intent": "Incident",
+      "entities": [
+        {
+          "entity": "IncidentCreate",
+          "startPos": 10,
+          "endPos": 24
+        }
+      ]
+    },
+    {
+      "text": "i want help to create a presentation",
+      "intent": "question",
+      "entities": [
+        {
+          "entity": "Presentation::create",
+          "startPos": 15,
+          "endPos": 20
+        }
+      ]
+    },
+    {
+      "text": "i want to book a ticket to highest education center",
+      "intent": "None",
+      "entities": []
+    },
+    {
+      "text": "i want to book tickets for american airlines arena",
+      "intent": "None",
+      "entities": []
+    },
+    {
+      "text": "i want to book tickets for at&t center",
+      "intent": "None",
+      "entities": []
+    },
+    {
+      "text": "i want to book wembley stadium tickets",
+      "intent": "None",
+      "entities": []
+    },
+    {
+      "text": "i want to create a presentation",
+      "intent": "question",
+      "entities": [
+        {
+          "entity": "Presentation::create",
+          "startPos": 10,
+          "endPos": 15
+        }
+      ]
+    },
+    {
+      "text": "i want to create a project type commercial for customer chandra",
+      "intent": "projecttype",
+      "entities": [
+        {
+          "entity": "ProjectType::Commercial",
+          "startPos": 32,
+          "endPos": 41
+        },
+        {
+          "entity": "Entertainment.Person",
+          "startPos": 56,
+          "endPos": 62
+        }
+      ]
+    },
+    {
+      "text": "i want to create a project type commercial for user ganesh",
+      "intent": "projecttype",
+      "entities": [
+        {
+          "entity": "ProjectType::Commercial",
+          "startPos": 32,
+          "endPos": 41
+        }
+      ]
+    },
+    {
+      "text": "i want to create an incident",
+      "intent": "Incident",
+      "entities": [
+        {
+          "entity": "IncidentCreate",
+          "startPos": 20,
+          "endPos": 27
+        }
+      ]
+    },
+    {
+      "text": "i want to create incident",
+      "intent": "Incident",
+      "entities": [
+        {
+          "entity": "IncidentCreate",
+          "startPos": 10,
+          "endPos": 24
+        }
+      ]
+    },
+    {
+      "text": "i want to know how i can create a presentation",
+      "intent": "question",
+      "entities": [
+        {
+          "entity": "Presentation::create",
+          "startPos": 34,
+          "endPos": 45
+        }
+      ]
+    },
+    {
+      "text": "i want to listen to michael jackson songs",
+      "intent": "None",
+      "entities": [
+        {
+          "entity": "Entertainment.Person",
+          "startPos": 20,
+          "endPos": 34
+        }
+      ]
+    },
+    {
+      "text": "i want to play world cup games",
+      "intent": "None",
+      "entities": [
+        {
+          "entity": "Entertainment.Title",
+          "startPos": 15,
+          "endPos": 23
+        }
+      ]
+    },
+    {
+      "text": "i want to see movies by john wayne",
+      "intent": "None",
+      "entities": [
+        {
+          "entity": "Entertainment.Person",
+          "startPos": 24,
+          "endPos": 33
+        }
+      ]
+    },
+    {
+      "text": "i want to watch cosmos tv series 2014",
+      "intent": "None",
+      "entities": [
+        {
+          "entity": "Entertainment.Title",
+          "startPos": 16,
+          "endPos": 21
+        }
+      ]
+    },
+    {
+      "text": "i would you like to create a presentation. can you help me out",
+      "intent": "question",
+      "entities": [
+        {
+          "entity": "Presentation::create",
+          "startPos": 20,
+          "endPos": 25
+        }
+      ]
+    },
+    {
+      "text": "it's examplespec",
+      "intent": "pptname",
+      "entities": [
+        {
+          "entity": "Entertainment.Title",
+          "startPos": 5,
+          "endPos": 15
+        }
+      ]
+    },
+    {
+      "text": "kohl_1",
+      "intent": "pptname",
+      "entities": [
+        {
+          "entity": "Entertainment.Title",
+          "startPos": 0,
+          "endPos": 5
+        }
+      ]
+    },
+    {
+      "text": "kohler-1243",
+      "intent": "pptname",
+      "entities": [
+        {
+          "entity": "Entertainment.Title",
+          "startPos": 0,
+          "endPos": 10
+        }
+      ]
+    },
+    {
+      "text": "kohlerbottest is the name of my presentation. create it for me",
+      "intent": "pptname",
+      "entities": [
+        {
+          "entity": "Entertainment.Title",
+          "startPos": 0,
+          "endPos": 12
+        },
+        {
+          "entity": "Presentation::create",
+          "startPos": 46,
+          "endPos": 51
+        }
+      ]
+    },
+    {
+      "text": "look for the soundtrack of step up",
+      "intent": "None",
+      "entities": [
+        {
+          "entity": "Entertainment.Title",
+          "startPos": 27,
+          "endPos": 33
+        }
+      ]
+    },
+    {
+      "text": "mail id is archit@miraclesoft.com",
+      "intent": "mailid",
+      "entities": []
+    },
+    {
+      "text": "make dinner plans at restaurant at 8pm .",
+      "intent": "None",
+      "entities": []
+    },
+    {
+      "text": "make hospitality as my project type",
+      "intent": "projecttype",
+      "entities": [
+        {
+          "entity": "ProjectType::Hospitality",
+          "startPos": 5,
+          "endPos": 15
+        }
+      ]
+    },
+    {
+      "text": "meet kiel at hallmark cards 405 saturday 2 : 00 pm",
+      "intent": "None",
+      "entities": []
+    },
+    {
+      "text": "my country is mexico",
+      "intent": "countryname",
+      "entities": []
+    },
+    {
+      "text": "my country name is mexico",
+      "intent": "countryname",
+      "entities": []
+    },
+    {
+      "text": "my presentation is testspec. create it for me",
+      "intent": "pptname",
+      "entities": [
+        {
+          "entity": "Entertainment.Title",
+          "startPos": 19,
+          "endPos": 26
+        },
+        {
+          "entity": "Presentation::create",
+          "startPos": 29,
+          "endPos": 34
+        }
+      ]
+    },
+    {
+      "text": "my presentation name is defr$32@. create it",
+      "intent": "pptname",
+      "entities": [
+        {
+          "entity": "Entertainment.Title",
+          "startPos": 24,
+          "endPos": 31
+        },
+        {
+          "entity": "Presentation::create",
+          "startPos": 34,
+          "endPos": 39
+        }
+      ]
+    },
+    {
+      "text": "my presentation name is fask",
+      "intent": "pptname",
+      "entities": [
+        {
+          "entity": "Entertainment.Title",
+          "startPos": 24,
+          "endPos": 27
+        }
+      ]
+    },
+    {
+      "text": "my presentation name is sample and i want to create it",
+      "intent": "question",
+      "entities": [
+        {
+          "entity": "Presentation::create",
+          "startPos": 45,
+          "endPos": 50
+        }
+      ]
+    },
+    {
+      "text": "my presentation name is samplesdfew",
+      "intent": "pptname",
+      "entities": [
+        {
+          "entity": "Entertainment.Title",
+          "startPos": 24,
+          "endPos": 34
+        }
+      ]
+    },
+    {
+      "text": "name is spec",
+      "intent": "pptname",
+      "entities": [
+        {
+          "entity": "Entertainment.Title",
+          "startPos": 8,
+          "endPos": 11
+        }
+      ]
+    },
+    {
+      "text": "name of my presentation is simpletest. please create it",
+      "intent": "pptname",
+      "entities": [
+        {
+          "entity": "Entertainment.Title",
+          "startPos": 27,
+          "endPos": 36
+        },
+        {
+          "entity": "Presentation::create",
+          "startPos": 46,
+          "endPos": 51
+        }
+      ]
+    },
+    {
+      "text": "name of my presentation is test",
+      "intent": "question",
+      "entities": []
+    },
+    {
+      "text": "no",
+      "intent": "assistance_no",
+      "entities": []
+    },
+    {
+      "text": "no need",
+      "intent": "assistance_no",
+      "entities": []
+    },
+    {
+      "text": "nope",
+      "intent": "assistance_no",
+      "entities": []
+    },
+    {
+      "text": "ojai apple picking",
+      "intent": "None",
+      "entities": []
+    },
+    {
+      "text": "okay thanks",
+      "intent": "thankyou",
+      "entities": []
+    },
+    {
+      "text": "open the breaking bad season six",
+      "intent": "None",
+      "entities": [
+        {
+          "entity": "Entertainment.Title",
+          "startPos": 9,
+          "endPos": 20
+        }
+      ]
+    },
+    {
+      "text": "paris",
+      "intent": "countryname",
+      "entities": []
+    },
+    {
+      "text": "play oculus trailer please",
+      "intent": "None",
+      "entities": [
+        {
+          "entity": "Entertainment.Title",
+          "startPos": 5,
+          "endPos": 10
+        }
+      ]
+    },
+    {
+      "text": "please find the most recent song by adele",
+      "intent": "None",
+      "entities": [
+        {
+          "entity": "Entertainment.Person",
+          "startPos": 36,
+          "endPos": 40
+        }
+      ]
+    },
+    {
+      "text": "please open presentation",
+      "intent": "question",
+      "entities": [
+        {
+          "entity": "Presentation::open",
+          "startPos": 7,
+          "endPos": 23
+        }
+      ]
+    },
+    {
+      "text": "please open the presentaion",
+      "intent": "question",
+      "entities": [
+        {
+          "entity": "Presentation::open",
+          "startPos": 7,
+          "endPos": 10
+        }
+      ]
+    },
+    {
+      "text": "please order 4 tickets to the brian wilson concert at the paramount theatre",
+      "intent": "None",
+      "entities": []
+    },
+    {
+      "text": "popular defiance ohio music",
+      "intent": "None",
+      "entities": [
+        {
+          "entity": "Entertainment.Person",
+          "startPos": 8,
+          "endPos": 20
+        }
+      ]
+    },
+    {
+      "text": "presentation name is sample",
+      "intent": "pptname",
+      "entities": [
+        {
+          "entity": "Entertainment.Title",
+          "startPos": 21,
+          "endPos": 26
+        }
+      ]
+    },
+    {
+      "text": "presentation name is sample78",
+      "intent": "pptname",
+      "entities": [
+        {
+          "entity": "Entertainment.Title",
+          "startPos": 21,
+          "endPos": 28
+        }
+      ]
+    },
+    {
+      "text": "presentation name is sdfe@123",
+      "intent": "pptname",
+      "entities": [
+        {
+          "entity": "Entertainment.Title",
+          "startPos": 21,
+          "endPos": 28
+        }
+      ]
+    },
+    {
+      "text": "presentation name is simple25",
+      "intent": "pptname",
+      "entities": [
+        {
+          "entity": "Entertainment.Title",
+          "startPos": 21,
+          "endPos": 28
+        }
+      ]
+    },
+    {
+      "text": "presentation name is simplebot",
+      "intent": "pptname",
+      "entities": [
+        {
+          "entity": "Entertainment.Title",
+          "startPos": 21,
+          "endPos": 29
+        }
+      ]
+    },
+    {
+      "text": "presentation name is spec",
+      "intent": "pptname",
+      "entities": [
+        {
+          "entity": "Entertainment.Title",
+          "startPos": 21,
+          "endPos": 24
+        }
+      ]
+    },
+    {
+      "text": "presentation name is specdeckwes. please create it for me",
+      "intent": "pptname",
+      "entities": [
+        {
+          "entity": "Entertainment.Title",
+          "startPos": 21,
+          "endPos": 31
+        }
+      ]
+    },
+    {
+      "text": "presentation name is test3291",
+      "intent": "pptname",
+      "entities": [
+        {
+          "entity": "Entertainment.Title",
+          "startPos": 21,
+          "endPos": 28
+        }
+      ]
+    },
+    {
+      "text": "presentation1",
+      "intent": "pptname",
+      "entities": [
+        {
+          "entity": "Entertainment.Title",
+          "startPos": 0,
+          "endPos": 12
+        }
+      ]
+    },
+    {
+      "text": "presentation10-9",
+      "intent": "pptname",
+      "entities": [
+        {
+          "entity": "Entertainment.Title",
+          "startPos": 0,
+          "endPos": 15
+        }
+      ]
+    },
+    {
+      "text": "project type is hospitality",
+      "intent": "projecttype",
+      "entities": [
+        {
+          "entity": "ProjectType::Hospitality",
+          "startPos": 16,
+          "endPos": 26
+        }
+      ]
+    },
+    {
+      "text": "public transportation to the hospital ?",
+      "intent": "None",
+      "entities": []
+    },
+    {
+      "text": "purple cafe kirkland reservations",
+      "intent": "None",
+      "entities": []
+    },
+    {
+      "text": "qswfr_874",
+      "intent": "pptname",
+      "entities": [
+        {
+          "entity": "Entertainment.Title",
+          "startPos": 0,
+          "endPos": 8
+        }
+      ]
+    },
+    {
+      "text": "reprod-1708",
+      "intent": "pptname",
+      "entities": [
+        {
+          "entity": "Entertainment.Title",
+          "startPos": 0,
+          "endPos": 10
+        }
+      ]
+    },
+    {
+      "text": "sample",
+      "intent": "pptname",
+      "entities": [
+        {
+          "entity": "Entertainment.Title",
+          "startPos": 0,
+          "endPos": 5
+        }
+      ]
+    },
+    {
+      "text": "sample test",
+      "intent": "pptname",
+      "entities": [
+        {
+          "entity": "Entertainment.Title",
+          "startPos": 0,
+          "endPos": 10
+        }
+      ]
+    },
+    {
+      "text": "sample@miraclesoft.com",
+      "intent": "mailid",
+      "entities": []
+    },
+    {
+      "text": "sample85",
+      "intent": "pptname",
+      "entities": [
+        {
+          "entity": "Entertainment.Title",
+          "startPos": 0,
+          "endPos": 7
+        }
+      ]
+    },
+    {
+      "text": "samplekohlerbot",
+      "intent": "pptname",
+      "entities": [
+        {
+          "entity": "Entertainment.Title",
+          "startPos": 0,
+          "endPos": 14
+        }
+      ]
+    },
+    {
+      "text": "samplespec",
+      "intent": "pptname",
+      "entities": [
+        {
+          "entity": "Entertainment.Title",
+          "startPos": 0,
+          "endPos": 9
+        }
+      ]
+    },
+    {
+      "text": "santa barbara maine postal please",
+      "intent": "None",
+      "entities": []
+    },
+    {
+      "text": "sdefr3e@##123",
+      "intent": "pptname",
+      "entities": [
+        {
+          "entity": "Entertainment.Title",
+          "startPos": 0,
+          "endPos": 12
+        }
+      ]
+    },
+    {
+      "text": "sdfrs_541",
+      "intent": "pptname",
+      "entities": [
+        {
+          "entity": "Entertainment.Title",
+          "startPos": 0,
+          "endPos": 8
+        }
+      ]
+    },
+    {
+      "text": "search dearham swimming pool timetable",
+      "intent": "None",
+      "entities": []
+    },
+    {
+      "text": "search for the nighttime tv show that denzel washington starred in .",
+      "intent": "None",
+      "entities": [
+        {
+          "entity": "Entertainment.Person",
+          "startPos": 38,
+          "endPos": 54
+        }
+      ]
+    },
+    {
+      "text": "search machinima in the marketplace",
+      "intent": "None",
+      "entities": [
+        {
+          "entity": "Entertainment.Title",
+          "startPos": 7,
+          "endPos": 15
+        }
+      ]
+    },
+    {
+      "text": "search out blast in the marketplace",
+      "intent": "None",
+      "entities": [
+        {
+          "entity": "Entertainment.Person",
+          "startPos": 7,
+          "endPos": 15
+        }
+      ]
+    },
+    {
+      "text": "search the store for carousel",
+      "intent": "None",
+      "entities": [
+        {
+          "entity": "Entertainment.Title",
+          "startPos": 21,
+          "endPos": 28
+        }
+      ]
+    },
+    {
+      "text": "set an event on edwardsville pa gym today",
+      "intent": "None",
+      "entities": []
+    },
+    {
+      "text": "show me concert tickets for the century link field stadium please",
+      "intent": "None",
+      "entities": []
+    },
+    {
+      "text": "show me drama but do not include kevin spacey",
+      "intent": "None",
+      "entities": [
+        {
+          "entity": "Entertainment.Person",
+          "startPos": 33,
+          "endPos": 44
+        }
+      ]
+    },
+    {
+      "text": "show me the opening hours of smokey park",
+      "intent": "None",
+      "entities": []
+    },
+    {
+      "text": "show me the walking dead season four",
+      "intent": "None",
+      "entities": [
+        {
+          "entity": "Entertainment.Title",
+          "startPos": 8,
+          "endPos": 23
+        }
+      ]
+    },
+    {
+      "text": "show movies starring gary oldman",
+      "intent": "None",
+      "entities": [
+        {
+          "entity": "Entertainment.Person",
+          "startPos": 21,
+          "endPos": 31
+        }
+      ]
+    },
+    {
+      "text": "single family home is the project type. please create it for customer orchard",
+      "intent": "projecttype",
+      "entities": [
+        {
+          "entity": "ProjectType::Single Family home",
+          "startPos": 0,
+          "endPos": 17
+        },
+        {
+          "entity": "Entertainment.Person",
+          "startPos": 70,
+          "endPos": 76
+        }
+      ]
+    },
+    {
+      "text": "soda popinski sf",
+      "intent": "None",
+      "entities": []
+    },
+    {
+      "text": "spec123",
+      "intent": "pptname",
+      "entities": [
+        {
+          "entity": "Entertainment.Title",
+          "startPos": 0,
+          "endPos": 6
+        }
+      ]
+    },
+    {
+      "text": "specdeck2.0",
+      "intent": "pptname",
+      "entities": [
+        {
+          "entity": "Entertainment.Title",
+          "startPos": 0,
+          "endPos": 10
+        }
+      ]
+    },
+    {
+      "text": "spectest",
+      "intent": "pptname",
+      "entities": [
+        {
+          "entity": "Entertainment.Title",
+          "startPos": 0,
+          "endPos": 7
+        }
+      ]
+    },
+    {
+      "text": "spectestppt is the presentation name",
+      "intent": "pptname",
+      "entities": [
+        {
+          "entity": "Entertainment.Title",
+          "startPos": 0,
+          "endPos": 10
+        }
+      ]
+    },
+    {
+      "text": "start the breaking news",
+      "intent": "None",
+      "entities": [
+        {
+          "entity": "Entertainment.Title",
+          "startPos": 10,
+          "endPos": 22
+        }
+      ]
+    },
+    {
+      "text": "state my presentation name as specsample",
+      "intent": "pptname",
+      "entities": [
+        {
+          "entity": "Entertainment.Title",
+          "startPos": 30,
+          "endPos": 39
+        }
+      ]
+    },
+    {
+      "text": "sufti_845",
+      "intent": "pptname",
+      "entities": [
+        {
+          "entity": "Entertainment.Title",
+          "startPos": 0,
+          "endPos": 8
+        }
+      ]
+    },
+    {
+      "text": "swdef",
+      "intent": "pptname",
+      "entities": [
+        {
+          "entity": "Entertainment.Title",
+          "startPos": 0,
+          "endPos": 4
+        }
+      ]
+    },
+    {
+      "text": "tacoma please",
+      "intent": "None",
+      "entities": []
+    },
+    {
+      "text": "tell me what are the most popular jonas brors albums",
+      "intent": "None",
+      "entities": [
+        {
+          "entity": "Entertainment.Person",
+          "startPos": 34,
+          "endPos": 44
+        }
+      ]
+    },
+    {
+      "text": "tell me your capabilities",
+      "intent": "capabilities",
+      "entities": []
+    },
+    {
+      "text": "tesco ' s catterick garrison address please",
+      "intent": "None",
+      "entities": []
+    },
+    {
+      "text": "test",
+      "intent": "pptname",
+      "entities": [
+        {
+          "entity": "Entertainment.Title",
+          "startPos": 0,
+          "endPos": 3
+        }
+      ]
+    },
+    {
+      "text": "test 123 is my presentation name. create it for me",
+      "intent": "pptname",
+      "entities": [
+        {
+          "entity": "Entertainment.Title",
+          "startPos": 0,
+          "endPos": 7
+        }
+      ]
+    },
+    {
+      "text": "test is the presentation name which i want to create",
+      "intent": "question",
+      "entities": [
+        {
+          "entity": "Presentation::create",
+          "startPos": 46,
+          "endPos": 51
+        }
+      ]
+    },
+    {
+      "text": "test@gmail.com",
+      "intent": "mailid",
+      "entities": []
+    },
+    {
+      "text": "test_280",
+      "intent": "pptname",
+      "entities": [
+        {
+          "entity": "Entertainment.Title",
+          "startPos": 0,
+          "endPos": 7
+        }
+      ]
+    },
+    {
+      "text": "test123",
+      "intent": "pptname",
+      "entities": [
+        {
+          "entity": "Entertainment.Title",
+          "startPos": 0,
+          "endPos": 6
+        }
+      ]
+    },
+    {
+      "text": "test236 is the name of presentation",
+      "intent": "pptname",
+      "entities": [
+        {
+          "entity": "Entertainment.Title",
+          "startPos": 0,
+          "endPos": 6
+        }
+      ]
+    },
+    {
+      "text": "test-50-products",
+      "intent": "pptname",
+      "entities": [
+        {
+          "entity": "Entertainment.Title",
+          "startPos": 0,
+          "endPos": 15
+        }
+      ]
+    },
+    {
+      "text": "test874",
+      "intent": "pptname",
+      "entities": [
+        {
+          "entity": "Entertainment.Title",
+          "startPos": 0,
+          "endPos": 6
+        }
+      ]
+    },
+    {
+      "text": "testing bot",
+      "intent": "pptname",
+      "entities": [
+        {
+          "entity": "Entertainment.Title",
+          "startPos": 0,
+          "endPos": 10
+        }
+      ]
+    },
+    {
+      "text": "testing1456massimport",
+      "intent": "pptname",
+      "entities": [
+        {
+          "entity": "Entertainment.Title",
+          "startPos": 0,
+          "endPos": 20
+        }
+      ]
+    },
+    {
+      "text": "testingspec",
+      "intent": "pptname",
+      "entities": [
+        {
+          "entity": "Entertainment.Title",
+          "startPos": 0,
+          "endPos": 10
+        }
+      ]
+    },
+    {
+      "text": "testpresentation11-08",
+      "intent": "pptname",
+      "entities": [
+        {
+          "entity": "Entertainment.Title",
+          "startPos": 0,
+          "endPos": 20
+        }
+      ]
+    },
+    {
+      "text": "testspec",
+      "intent": "pptname",
+      "entities": [
+        {
+          "entity": "Entertainment.Title",
+          "startPos": 0,
+          "endPos": 7
+        }
+      ]
+    },
+    {
+      "text": "testspec is my presentation name. create it",
+      "intent": "pptname",
+      "entities": [
+        {
+          "entity": "Entertainment.Title",
+          "startPos": 0,
+          "endPos": 7
+        },
+        {
+          "entity": "Presentation::create",
+          "startPos": 34,
+          "endPos": 39
+        }
+      ]
+    },
+    {
+      "text": "testwj1_copy",
+      "intent": "pptname",
+      "entities": [
+        {
+          "entity": "Entertainment.Title",
+          "startPos": 0,
+          "endPos": 11
+        }
+      ]
+    },
+    {
+      "text": "thank you",
+      "intent": "thankyou",
+      "entities": []
+    },
+    {
+      "text": "thank you so much",
+      "intent": "thankyou",
+      "entities": []
+    },
+    {
+      "text": "thank you. can you please help me in creating presentation",
+      "intent": "question",
+      "entities": [
+        {
+          "entity": "Presentation::create",
+          "startPos": 37,
+          "endPos": 44
+        }
+      ]
+    },
+    {
+      "text": "thanks",
+      "intent": "thankyou",
+      "entities": []
+    },
+    {
+      "text": "thanks for the help",
+      "intent": "thankyou",
+      "entities": []
+    },
+    {
+      "text": "the good times tv show please",
+      "intent": "None",
+      "entities": [
+        {
+          "entity": "Entertainment.Title",
+          "startPos": 0,
+          "endPos": 13
+        }
+      ]
+    },
+    {
+      "text": "tickets to see hair at the hollywood bowl",
+      "intent": "None",
+      "entities": []
+    },
+    {
+      "text": "uani street",
+      "intent": "None",
+      "entities": []
+    },
+    {
+      "text": "view pg rated movies with comedy or tom hanks",
+      "intent": "None",
+      "entities": [
+        {
+          "entity": "Entertainment.Person",
+          "startPos": 36,
+          "endPos": 44
+        }
+      ]
+    },
+    {
+      "text": "vine app on windows phone",
+      "intent": "None",
+      "entities": [
+        {
+          "entity": "Entertainment.Title",
+          "startPos": 0,
+          "endPos": 3
+        }
+      ]
+    },
+    {
+      "text": "visit 209 nashville gym tomorrow morning",
+      "intent": "None",
+      "entities": []
+    },
+    {
+      "text": "watch dogs demo",
+      "intent": "None",
+      "entities": [
+        {
+          "entity": "Entertainment.Title",
+          "startPos": 0,
+          "endPos": 9
+        }
+      ]
+    },
+    {
+      "text": "what are your capabilities",
+      "intent": "capabilities",
+      "entities": []
+    },
+    {
+      "text": "what can you do",
+      "intent": "capabilities",
+      "entities": []
+    },
+    {
+      "text": "what can you do for me",
+      "intent": "capabilities",
+      "entities": []
+    },
+    {
+      "text": "what is the bus schedule today in dawsonville",
+      "intent": "None",
+      "entities": []
+    },
+    {
+      "text": "what is the cheapest the crew video game ?",
+      "intent": "None",
+      "entities": [
+        {
+          "entity": "Entertainment.Title",
+          "startPos": 21,
+          "endPos": 28
+        }
+      ]
+    },
+    {
+      "text": "what is the most popular american movie in 2016 ?",
+      "intent": "None",
+      "entities": [
+        {
+          "entity": "Entertainment.Person",
+          "startPos": 25,
+          "endPos": 32
+        }
+      ]
+    },
+    {
+      "text": "what movies has jerry bruckheimer produced",
+      "intent": "None",
+      "entities": [
+        {
+          "entity": "Entertainment.Person",
+          "startPos": 16,
+          "endPos": 32
+        }
+      ]
+    }
+  ],
+  "settings": []
+}

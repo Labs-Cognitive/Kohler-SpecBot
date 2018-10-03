@@ -42,7 +42,7 @@ var connector = new builder.ChatConnector({
 var bot = new builder.UniversalBot(connector, {
     storage: new builder.MemoryBotStorage()
 });
-var model = 'https://eastus.api.cognitive.microsoft.com/luis/v2.0/apps/67a4d004-c4b7-407b-9f29-b868cbfd8089?subscription-key=5558ecec80784f159f3ea033afbe7e31&timezoneOffset=-360&q=';	
+var model = 'https://westus.api.cognitive.microsoft.com/luis/v2.0/apps/5732cf18-d71a-49ac-9e14-491e48c0efac?subscription-key=bcd3f91561a14411807569e6623ef01a&timezoneOffset=-360&q=';	
 
 var recognizer = new builder.LuisRecognizer(model);
 var dialog = new builder.IntentDialog({
